@@ -34,7 +34,7 @@ class VerificationController extends Controller
         if(Auth::check() && Auth::user()->role_id == 1) {
             return $this->redirectTo = route('admin.dashboard');
         } elseif(Auth::check()) {
-            if(Auth::user()->two_step_auth == 1) {
+            if(Auth::user()->email_verified_at != null && Auth::user()->two_step_auth == 1) {
                return $this->redirectTo = route('user.otp');
             } else {
                 if (Session::has('withdraw_method_id')) {

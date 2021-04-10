@@ -81,6 +81,7 @@ class LoginController extends Controller
 
         $user_store->account_number = $this->generateAccNo();
         $user_store->status         = 1;
+        $user_store->two_step_auth  = 1;
         $user_store->save();
         Auth::login($user_store);
 
@@ -100,7 +101,7 @@ class LoginController extends Controller
             ]);
             return redirect()->route('user.transfer.ecurrency.confirm');
         }else {
-            return redirect('/user/dashboard');
+            return redirect('/user/dashboard')->with(['otp_verified' => true]);
         }
 
     }
