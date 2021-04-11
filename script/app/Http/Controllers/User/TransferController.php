@@ -178,6 +178,19 @@ class TransferController extends Controller
         $transaction_reciever->info = 'Recieved ' . $amount . ' from Acc : '.$user->account_number;
         $transaction_reciever->type = 'ownbank_transfer_credit';
         $transaction_reciever->save();
+
+        $senderData = [
+            'name' => $user->name,
+            'message' => 'You have transferred $'.$amount. ' to '. $reciever->name.' having account '. $reciever->account_number ,
+        ];
+        $receiverData = [
+            'name' => $reciever->name,
+            'message' => 'You have received $'.$amount. ' from '. $user->name.' having account '. $user->account_number ,
+        ];
+
+        Mail::to($user->email)->send(new TransferOTPMail($senderData));
+        Mail::to($reciever->email)->send(new TransferOTPMail($receiverData));
+
         return redirect()->route('user.transaction.history')->with('message', "Transfer successfull!");
     }
 

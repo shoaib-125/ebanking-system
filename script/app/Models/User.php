@@ -54,6 +54,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['name'];
+
+    public function getNameAttribute(){
+        return $this->first_name. ' '. $this->last_name;
+
+    }
+
     public function userPhoneVerified()
     {
         return ! is_null($this->phone_verified_at);
