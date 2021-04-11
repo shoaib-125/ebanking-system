@@ -328,7 +328,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'namespace' => 'User', 'middl
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::post('dashboard/user', 'DashboardController@user_info')->name('dashboard.user_info');
     Route::get('edeposit', 'EdepositController@index')->name('edeposit.index');
-    Route::get('payment/success', 'EdepositController@payment_success');
+    Route::get('payment/success', 'EdepositController@payment_success')->name('edoposit.request.success');
     Route::get('payment/fail','EdepositController@payment_fail');
     Route::post('edeposit/{id}/check', 'EdepositController@check')->name('edeposit.check');
     Route::get('edeposit/payment', 'EdepositController@payment')->name('edeposit.payment');

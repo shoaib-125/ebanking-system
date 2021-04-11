@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Validator;
 class AccountSettingController extends Controller
 {
 
-    public $verification_doc_dir = 'images/verificationDocs';
+    public $verification_doc_dir = 'uploads/images/verificationDocs';
 
     //Verification docs submit
     function verificationRequest(Request $request){
@@ -34,45 +34,42 @@ class AccountSettingController extends Controller
         ]);
 
         $user = User::find(Auth::id());
+        $uploaded_path = $this->verification_doc_dir;
         $status = 0;
 
         if ($request->idf_image != '' && $request->idf_image != null && $request->hasFile('idf_image')) {
             $img = $request->file('idf_image');
             $img_name = Auth::id() . 'idf_img' . '.' . $img->getClientOriginalExtension();
-            $uploaded_path = public_path() . '/'. $this->verification_doc_dir;
             $img->move($uploaded_path, $img_name);
 
-            $user->id_front = asset($this->verification_doc_dir).'/' . $img_name;
+            $user->id_front = url($this->verification_doc_dir).'/' . $img_name;
             $status++;
         }
 
         if ($request->idb_image != '' && $request->idb_image != null && $request->hasFile('idb_image')) {
             $img = $request->file('idb_image');
             $img_name = Auth::id() . 'idb_image' . '.' . $img->getClientOriginalExtension();
-            $uploaded_path = public_path() . '/'. $this->verification_doc_dir;
             $img->move($uploaded_path, $img_name);
 
-            $user->id_back = asset($this->verification_doc_dir).'/' . $img_name;
+            $user->id_back = url($this->verification_doc_dir).'/' . $img_name;
             $status++;
         }
 
         if ($request->selfie_image != '' && $request->selfie_image != null && $request->hasFile('selfie_image')) {
             $img = $request->file('selfie_image');
             $img_name = Auth::id() . 'selfie_image' . '.' . $img->getClientOriginalExtension();
-            $uploaded_path = public_path() . '/'. $this->verification_doc_dir;
             $img->move($uploaded_path, $img_name);
 
-            $user->selfie = asset($this->verification_doc_dir).'/' . $img_name;
+            $user->selfie = url($this->verification_doc_dir).'/' . $img_name;
             $status++;
         }
 
         if ($request->bill_image != '' && $request->bill_image != null && $request->hasFile('bill_image')) {
             $img = $request->file('bill_image');
             $img_name = Auth::id() . 'bill_image' . '.' . $img->getClientOriginalExtension();
-            $uploaded_path = public_path() . '/'. $this->verification_doc_dir;
             $img->move($uploaded_path, $img_name);
 
-            $user->bill = asset($this->verification_doc_dir).'/' . $img_name;
+            $user->bill = url($this->verification_doc_dir).'/' . $img_name;
             $status++;
         }
 

@@ -38,17 +38,17 @@
                                        </div>
                                    </div>
                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal{{ $gateway->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="exampleModal{{ $gateway->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $gateway->id }}" aria-hidden="true">
                                         <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">{{ ucwords($gateway->name) }} </h5>
+                                            <h5 class="modal-title" id="exampleModalLabel{{ $gateway->id }}">{{ ucwords($gateway->name) }} </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form method="POST" action="{{ route('user.edeposit.check', $gateway->id) }}" class="basicform" novalidate="">
+                                                <form method="POST" action="{{ route('user.edeposit.check', $gateway->id) }}" class="basicform" novalidate="" enctype="multipart/form-data">
                                                 @csrf
-                                                <input type="hidden" value="{{ route('user.edeposit.payment') }}" class="redirectUrl">
+                                                <input type="hidden" value="{{ route('user.otp') }}" class="redirectUrl">
                                                 @if ($gateway->type == 0)
                                                     <label for="currency">{{ __('Currency') }}</label>
                                                     <select name="currency" id="" class="form-control">
@@ -58,9 +58,32 @@
                                                     </select> 
                                                 @endif
                                                 <div class="form-group">
-                                                    <label for="email">{{ __('Enter Amount (USD)') }}</label>
-                                                    <input type="number" class="form-control" name="amount" tabindex="1" required autofocus placeholder="{{ __('Amount') }}">
+                                                    <label>{{ __('Enter Account Number') }}</label>
+                                                    <input type="text" class="form-control" name="acc_number" tabindex="1" required autofocus placeholder="{{ __('Account number') }}">
                                                 </div>
+                                                <div class="form-group">
+                                                    <label>{{ __('Enter Account Title') }}</label>
+                                                    <input type="text" class="form-control" name="acc_title" tabindex="1" required autofocus placeholder="{{ __('Account Title') }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{ __('Enter Transaction ID') }}</label>
+                                                    <input type="text" class="form-control" name="trans_id" tabindex="1" required autofocus placeholder="{{ __('Transaction ID') }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{ __('Attach Image of Transaction Receipt') }}</label>
+                                                    <div class="upload-imgs adjust" style="position: relative; display: block">
+                                                        <fieldset>
+                                                            <div>
+                                                                <label class="custom-upload" for="proof-image-{{ $gateway->id }}"><span>Choose image to upload</span></label>
+                                                                <input type="file" id="proof-image-{{ $gateway->id }}" style="display:none;"
+                                                                       name="proof_image"
+                                                                       onchange="showImage(this, '#proof-image-{{ $gateway->id }}')"/>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div id="proof-image-{{ $gateway->id }}-viewer"></div>
+                                                </div>
+
                                                 <div class="form-group">
                                                     <div class="button-btn">
                                                         <button type="submit" class="basicbtn w-100" tabindex="4">

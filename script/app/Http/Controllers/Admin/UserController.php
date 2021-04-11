@@ -593,6 +593,12 @@ class UserController extends Controller
             }
             Session::put('otp_verified', true);
             Session::forget('otp_number');
+
+            if(Session::has('redirect_url')){
+                $redirect_url = Session::get('redirect_url', '/user/dashboard');
+                Session::forget('redirect_url');
+                return redirect($redirect_url);
+            }
             return redirect('/user/dashboard');
         }
 

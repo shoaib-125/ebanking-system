@@ -5,6 +5,7 @@ script/storage/*.key
 
 script/.idea
 script/error_log
+script/.DS_Store
 
 script/.DS_Store
 script/.DS_Store?

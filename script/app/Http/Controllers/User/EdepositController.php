@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Omnipay\Omnipay;
 use Illuminate\Support\Str;
 use App\Lib\Paypal;
@@ -35,6 +36,58 @@ class EdepositController extends Controller
     }
 
     public function check($id, Request $request){
+        $gateway = Getway::where('status', 1)->findOrFail($id);
+        if (!$gateway || $gateway == null) {
+            $err='Payment method is not supported.';
+            $error['errors']['err']=$err;
+            return response()->json($error,401);
+        }
+        if(!$request->has('acc_number') || $request->acc_number == null){
+            $err='Account number is required';
+            $error['errors']['err']=$err;
+            return response()->json($error,401);
+        }
+        if(!$request->has('acc_title') || $request->acc_title == null){
+            $err='Account title is required';
+            $error['errors']['err']=$err;
+            return response()->json($error,401);
+        }
+        if(!$request->has('trans_id') || $request->trans_id == null){
+            $err='Transaction ID is required';
+            $error['errors']['err']=$err;
+            return response()->json($error,401);
+        }
+        if(!$request->has('proof_image') || $request->proof_image == null){
+            $err='Transaction receipt image is required';
+            $error['errors']['err']=$err;
+            return response()->json($error,401);
+        }
+
+        $uploaded_path = 'uploads/images/depositReceipts/'.date('y-m');
+        $img = $request->file('proof_image');
+        $img_name = Auth::id() . 'proof_image-' . Str::random(6). '.' . $img->getClientOriginalExtension();
+        $img->move($uploaded_path, $img_name);
+
+        session([
+            'payment_info' => [
+                'payment_id' => $request->trans_id,
+                'getway_id' => $gateway->id,
+                'payment_method' => $gateway->name,
+                'payment_type' => 'edeposit',
+                'acc_number' => $request->acc_number,
+                'acc_title' => $request->acc_title,
+                'proof_image' => url($uploaded_path).'/' . $img_name,
+                'amount' => 0,
+                'charge' => 0,
+                'status' => 2,
+                'custom_edeposit' => true,
+            ],'redirect_url' => route('user.edoposit.request.success')
+        ]);
+        
+        return response()->json('Successful!');
+    }
+
+    /*public function check($id, Request $request){
         $gateway = Getway::where('status',1)->findOrFail($id);
         $gateway_info = json_decode($gateway->data);
         $amount = (float) $request->amount;
@@ -43,13 +96,13 @@ class EdepositController extends Controller
         if ($gateway->deposit_min > $amount) {
             $err='Cannot Be less than '. $gateway->deposit_min;
             $error['errors']['err']=$err;
-            return response()->json($error,401); 
+            return response()->json($error,401);
         }
-        
+
         if ($gateway->deposit_max < $amount) {
             $err= 'Cannot be greater than '.$gateway->deposit_max;
             $error['errors']['err']=$err;
-            return response()->json($error,401); 
+            return response()->json($error,401);
         }
 
         $type = $request->currency ? 'manual' : $gateway->name;
@@ -60,7 +113,7 @@ class EdepositController extends Controller
             };
             session(['credentials' => $cred]);
         }
-        
+
         if ($gateway->charge_type == 'fixed') {
             $charge = $gateway->fix_charge;
             $total_amount = $amount + $gateway->fix_charge;
@@ -69,7 +122,7 @@ class EdepositController extends Controller
             // calculate percentage
             $total_amount = $amount + $charge;
         }elseif ($gateway->charge_type == 'both'){
-            //If both: minus the charge then calculate the percentage 
+            //If both: minus the charge then calculate the percentage
             $charge = $gateway->fixed_charge;
             $charge += ($amount / 100) * $gateway->percent_charge;
             // calculate percentage
@@ -86,10 +139,10 @@ class EdepositController extends Controller
             'usd_amount' => $total_amount,
             'currency' => $currency ?? 0
         ]);
-        
+
         return response()->json('Successful!');
         // return redirect()->route('user.edeposit.payment');
-    }
+    }*/
 
     public function payment(Request $request){
         
@@ -307,42 +360,51 @@ class EdepositController extends Controller
     }
 
     public function payment_success(){
-      
         if(!Session::has('payment_info')){
             return abort(404);
         }
 
-          $payment_info = Session::get('payment_info');
-          //if transaction successfull
-          $user = User::findOrFail(Auth::id());
-          //Calculate new balance
-          $new_balance = $user->balance = $user->balance + (float)$payment_info['amount'];
-  
-          //Balance update on user table
-          $user->save();
+        $payment_info = Session::get('payment_info');
+        //if transaction successfull
+        $user = User::findOrFail(Auth::id());
+        //Calculate new balance
+        $new_balance = $user->balance = $user->balance + (float)$payment_info['amount'];
 
-          // Insert transaction data into deposit table   
-          $deposit = new Deposit();
-          $deposit->trx = $payment_info['payment_id'];
-          $deposit->user_id = $user->id;
-          $deposit->getway_id = $payment_info['getway_id'];
-          $deposit->type = $payment_info['payment_type'];
-          $deposit->amount = $payment_info['amount'];
-          $deposit->charge = $payment_info['charge'];
-          $deposit->status = $payment_info['status'];   
-          $deposit->save();
+        //Balance update on user table
+        if(!isset($payment_info['custom_edeposit'])){
+            $user->save();
+        }
 
-          // Insert transaction data into transaction table
-          $transaction = new Transaction();
-          $transaction->user_id = $user->id;
-          $transaction->trxid = Str::random(16);
-          $transaction->amount = $payment_info['amount'];
-          $transaction->balance = $new_balance;
-          $transaction->fee =  $payment_info['charge'];
-          $transaction->status = 1;
-          $transaction->info = 'Deposit with '.$payment_info['payment_method'];
-          $transaction->type = 'edeposit';
-          $transaction->save();
+        // Insert transaction data into transaction table
+        $transaction = new Transaction();
+        $transaction->user_id = $user->id;
+        $transaction->trxid = isset($payment_info['custom_edeposit']) ? $payment_info['payment_id'] : Str::random(16);
+        $transaction->amount = $payment_info['amount'];
+        $transaction->balance = $new_balance;
+        $transaction->fee =  $payment_info['charge'];
+        $transaction->status = isset($payment_info['custom_edeposit']) ? $payment_info['status'] : 1;
+        $transaction->info = 'Deposit with '.$payment_info['payment_method'];
+        $transaction->type = 'edeposit';
+        $transaction->save();
+
+        // Insert transaction data into deposit table
+        $deposit = new Deposit();
+        $deposit->trx = $payment_info['payment_id'];
+        $deposit->user_id = $user->id;
+        $deposit->getway_id = $payment_info['getway_id'];
+        $deposit->type = $payment_info['payment_type'];
+        $deposit->amount = $payment_info['amount'];
+        $deposit->charge = $payment_info['charge'];
+        $deposit->status = $payment_info['status'];
+        if(isset($payment_info['custom_edeposit'])){
+            $deposit->account_number = $payment_info['acc_number'];
+            $deposit->account_title = $payment_info['acc_title'];
+            $deposit->receipt_url = $payment_info['proof_image'];
+            Session::flash('message', 'Deposit will be approved by admin after verification.');
+        }else{
+            Session::flash('message', 'Transaction Successfully done!');
+        }
+        $deposit->save();
 
         //   if ($request->type == 0) {
         //       $deposit_meta = new Depositmeta();
@@ -353,7 +415,6 @@ class EdepositController extends Controller
         //   }
 
         Session::forget('payment_info');
-        Session::flash('message', 'Transaction Successfully done!');
         return redirect()->route('user.edeposit.history');
     }
 

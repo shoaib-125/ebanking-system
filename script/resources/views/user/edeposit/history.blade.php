@@ -52,11 +52,11 @@
                                                         {{ __('success') }}
                                                     </div>
                                                     @elseif($deposit->status == 2)
-                                                    <div class="badge bg-danger">
-                                                        {{ __('success') }}
+                                                    <div class="badge bg-warning">
+                                                        {{ __('Pending') }}
                                                     </div>
                                                     @else 
-                                                    <div class="badge bg-warning">
+                                                    <div class="badge bg-danger">
                                                         {{ __('Rejected') }}
                                                     </div>
                                                 @endif
