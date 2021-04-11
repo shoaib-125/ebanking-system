@@ -370,6 +370,10 @@ class UserController extends Controller
             $search_resuit = User::where('account_number', 'LIKE', "%$data%")->where('status', 1)->where('role_id', 2)->paginate(20);
             return view('admin.user.search_resuit', compact('search_resuit'));
         }
+        if ($request->type == 'cnic') {
+            $search_resuit = User::where('cnic', 'LIKE', "%$data%")->where('status', 1)->where('role_id', 2)->paginate(20);
+            return view('admin.user.search_resuit', compact('search_resuit'));
+        }
 
     }
 

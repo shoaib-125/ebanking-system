@@ -19,6 +19,7 @@
                           <option value="email">{{ __('Search By Email') }}</option>
                           <option value="phone">{{ __('Search By Phone') }}</option>
                           <option value="account_number">{{ __('Search By Account Number') }}</option>
+                          <option value="cnic">{{ __('Search By CNIC') }}</option>
                        </select>
                        <div class="input-group-append">                                            
                           <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
