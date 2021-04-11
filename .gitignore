@@ -13,7 +13,7 @@ script/.Spotlight-V100
 script/.Trashes
 script/ehthumbs.db
 script/Thumbs.db
-script/vendor
+script/vendor/
 script/node_modules
 script/Homestead.yaml
 script/Homestead.json
@@ -25,3 +25,4 @@ script/storage/logs/*
 script/storage/framework/cache/*
 script/storage/framework/sessions/*
 script/storage/framework/views/*
+uploads/
