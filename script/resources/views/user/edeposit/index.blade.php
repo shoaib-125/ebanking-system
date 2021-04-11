@@ -70,6 +70,10 @@
                                                     <input type="text" class="form-control" name="trans_id" tabindex="1" required autofocus placeholder="{{ __('Transaction ID') }}">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>{{ __('Enter Amount') }}</label>
+                                                    <input type="text" class="form-control" name="amount" tabindex="1" required autofocus placeholder="{{ __('Amount') }}">
+                                                </div>
+                                                <div class="form-group">
                                                     <label>{{ __('Attach Image of Transaction Receipt') }}</label>
                                                     <div class="upload-imgs adjust" style="position: relative; display: block">
                                                         <fieldset>

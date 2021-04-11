@@ -17,7 +17,7 @@
           <li class="menu-header">{{ __('Withdraw & Transactions') }}</li>
           
           <li class="nav-item dropdown {{ Request::is('admin/bank_withdraw*') ? 'show active' : '' }} ">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-university"></i> <span>{{ __('Bank Withdraw') }}</span></a>
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-university"></i> <span>{{ __('Withdraw') }}</span></a>
             <ul class="dropdown-menu">
              
               <li><a class="nav-link" href="{{ route('admin.bank_transaction_approved') }}">{{ __('Approved') }}</a></li>
@@ -243,7 +243,8 @@
               <li><a class="nav-link" href="{{ route('admin.email_unverified') }}">{{ __('Email Unverified') }}</a></li>
               <li><a class="nav-link" href="{{ route('admin.mobile_unverified') }}">{{ __('Mobile Unverified') }}</a></li>
               @endcan
-              
+              <li><a class="nav-link" href="{{ route('admin.new_user_verify') }}">{{ __('New Users Verification') }}</a></li>
+
             </ul>
           </li>
           <!--- Website management Modules --->

@@ -1,7 +1,7 @@
 @extends('layouts.backend.app')
 
 @section('head')
-@include('layouts.backend.partials.headersection',['title'=>'Bank Transaction Requests'])
+@include('layouts.backend.partials.headersection',['title'=>'Withdrawal Requests'])
 @endsection
 
 @section('content')
@@ -70,7 +70,7 @@
                       <th>{{ __('User') }}</th>
                       <th>{{ __('Account') }}</th>
                       <th>{{ __('Trx') }}</th>
-                      <th>{{ __('Bank') }}</th>
+                      <th>{{ __('Detail') }}</th>
                       <th>{{ __('Amount (USD)') }}</th>
                       <th>{{ __('Date') }}</th>
                       <th>{{ __('Status') }}</th>
@@ -82,13 +82,13 @@
                     <tr>
                       <td>{{ $row->user->name }}</td>
                       <td>{{ $row->user->account_number }}</td>
-                      <td>{{ $row->transaction->trxid }}</td>
-                      <td>{{ $row->bank->name }}</td>
-                      <td>{{ $row->amount/$row->currency_rate }}</td>
+                      <td>{{ $row->trxid }}</td>
+                      <td>{{ $row->info }}</td>
+                      <td>{{ $row->amount }}</td>
                       <td>{{ date('d-m-Y', strtotime($row->created_at)) }}</td>
                       <td>
                         @if($row->status == 2)
-                        <span class="badge badge-danger">{{ __('Pending') }}</span>
+                        <span class="badge badge-warning">{{ __('Pending') }}</span>
                         @endif
                       </td>
                       <td>
@@ -97,13 +97,17 @@
                           {{ __('Action') }}
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item has-icon" href="{{ route('admin.bank.transaction.approved',$row->id) }}"><i class="fa fa-eye"></i>{{ __('Approved') }}</a>
-                            <a class="dropdown-item has-icon" href="{{ route('admin.bank_transaction_view', $row->id) }}"><i class="fa fa-eye"></i>{{ __('View') }}</a>
-                            <a class="dropdown-item has-icon delete-confirm" href="javascript:void(0)" data-id={{ $row->id }}><i class="fa fa-trash"></i>{{ __('Rejected') }}</a>
+                              <a class="dropdown-item has-icon approve-confirm" href="javascript:void(0)" data-id={{ $row->id }}><i class="fa fa-eye"></i>{{ __('Approve') }}</a>
+                              <form class="d-none" id="approve_form_{{ $row->id }}" action="{{ route('admin.bank.transaction.update', $row->id) }}" method="POST">
+                                  <input type="hidden" name="update_approve" value="true"/>
+                                  @csrf
+                              </form>
+                            {{--<a class="dropdown-item has-icon" href="{{ route('admin.bank_transaction_view', $row->id) }}"><i class="fa fa-eye"></i>{{ __('View') }}</a>--}}
+                            <a class="dropdown-item has-icon delete-confirm" href="javascript:void(0)" data-id={{ $row->id }}><i class="fa fa-trash"></i>{{ __('Reject') }}</a>
                             <!-- Delete Form -->
-                            <form class="d-none" id="delete_form_{{ $row->id }}" action="{{ route('admin.bank.transaction.rejected', $row->id) }}" method="POST">
+                            <form class="d-none" id="delete_form_{{ $row->id }}" action="{{ route('admin.bank.transaction.update', $row->id) }}" method="POST">
                             @csrf
-                            @method('DELETE')
+                            </form>
                           </div>
                         </div>
                       </td>

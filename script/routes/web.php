@@ -148,6 +148,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('bank_withdraw/bank_transaction_request', 'TransactionController@bank_transaction_request')->name('bank_transaction_request');
     Route::get('bank-transaction/view/{id}', 'TransactionController@bank_transaction_view')->name('bank_transaction_view');
     Route::get('bank-transaction/approved/{id}', 'TransactionController@bankTransactionApproved')->name('bank.transaction.approved');
+    Route::post('bank-transaction/update/{id}', 'TransactionController@withdrawUpdate')->name('bank.transaction.update');
     Route::delete('bank-transaction/rejected/{id}', 'TransactionController@bankTransactionRejected')->name('bank.transaction.rejected');
 
     // All Transaction Route
@@ -186,6 +187,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('users/banded_users/index', 'UserController@banded_users')->name('banded_users');
     Route::get('users/email_unverified/index', 'UserController@email_unverified')->name('email_unverified');
     Route::get('users/mobile_unverified/index', 'UserController@mobile_unverified')->name('mobile_unverified');
+    Route::get('users/new_user/verification', 'UserController@newUserView')->name('new_user_verify');
+    Route::post('users/update/status/{id}', 'UserController@updateStatus')->name('users.update.status');
     Route::post('user/search/resuit', 'UserController@userSearchResuit')->name('user.search');
     Route::put('user/credits/{id}', 'UserController@userCredits')->name('user.credits');
     Route::put('user/transactions/mail/{id}', 'UserController@userTransactionMail')->name('user.transaction.mail');

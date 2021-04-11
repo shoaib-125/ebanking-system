@@ -57,6 +57,11 @@ class EdepositController extends Controller
             $error['errors']['err']=$err;
             return response()->json($error,401);
         }
+        if(!$request->has('amount') || $request->amount == null){
+            $err='Amount is required';
+            $error['errors']['err']=$err;
+            return response()->json($error,401);
+        }
         if(!$request->has('proof_image') || $request->proof_image == null){
             $err='Transaction receipt image is required';
             $error['errors']['err']=$err;
@@ -77,7 +82,7 @@ class EdepositController extends Controller
                 'acc_number' => $request->acc_number,
                 'acc_title' => $request->acc_title,
                 'proof_image' => url($uploaded_path).'/' . $img_name,
-                'amount' => 0,
+                'amount' => $request->amount,
                 'charge' => 0,
                 'status' => 2,
                 'custom_edeposit' => true,
@@ -396,6 +401,7 @@ class EdepositController extends Controller
         $deposit->amount = $payment_info['amount'];
         $deposit->charge = $payment_info['charge'];
         $deposit->status = $payment_info['status'];
+        $deposit->transaction_id = $transaction->id;
         if(isset($payment_info['custom_edeposit'])){
             $deposit->account_number = $payment_info['acc_number'];
             $deposit->account_title = $payment_info['acc_title'];

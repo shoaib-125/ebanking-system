@@ -1,7 +1,7 @@
 @extends('layouts.backend.app')
 
 @section('head')
-@include('layouts.backend.partials.headersection',['title'=>'Bank Transaction Rejected Lists'])
+@include('layouts.backend.partials.headersection',['title'=>'Withdrawal Rejected Lists'])
 @endsection
 
 @section('content')
@@ -68,7 +68,7 @@
                       <th>{{ __('User') }}</th>
                       <th>{{ __('Account') }}</th>
                       <th>{{ __('Trx') }}</th>
-                      <th>{{ __('Bank') }}</th>
+                      <th>{{ __('Detail') }}</th>
                       <th>{{ __('Amount') }}</th>
                       <th>{{ __('Date') }}</th>
                       <th>{{ __('Status') }}</th>
@@ -79,8 +79,8 @@
                     <tr>
                       <td>{{ $row->user->name }}</td>
                       <td>{{ $row->user->account_number }}</td>
-                      <td>{{ $row->transaction->trxid }}</td>
-                      <td>{{ $row->bank->name }}</td>
+                      <td>{{ $row->trxid }}</td>
+                      <td>{{ $row->info }}</td>
                       <td>{{ $row->amount }}</td>
                       <td>{{ date('d-m-Y', strtotime($row->created_at)) }}</td>
                       <td>

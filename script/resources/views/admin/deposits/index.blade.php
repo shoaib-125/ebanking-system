@@ -73,12 +73,18 @@
                         @endif
                       </td>
                       <td>
-                        @if ($deposit->status != 0)
+                        @if ($deposit->status == 2)
                         <div class="dropdown d-inline">
                           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ __('Action') }}
                           </button>
                           <div class="dropdown-menu">
+                              <a class="dropdown-item has-icon approve-confirm" href="javascript:void(0)" data-id={{ $deposit->id }}><i class="fa fa-trash"></i>{{ __('Approve') }}</a>
+                              <form class="d-none" id="approve_form_{{ $deposit->id }}" action="{{ route('admin.deposit.update', $deposit->id) }}" method="POST">
+                                  <input type="hidden" name="update_approve" value="true"/>
+                                  @csrf
+                                  @method('PUT')
+                              </form>
                             <a class="dropdown-item has-icon delete-confirm" href="javascript:void(0)" data-id={{ $deposit->id }}><i class="fa fa-trash"></i>{{ __('Cancel') }}</a>
                             <!-- Delete Form -->
                             <form class="d-none" id="delete_form_{{ $deposit->id }}" action="{{ route('admin.deposit.update', $deposit->id) }}" method="POST">

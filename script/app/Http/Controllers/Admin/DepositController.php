@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TransferOTPMail;
 use App\Models\Deposit;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\Getway;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\Mail;
+
 class DepositController extends Controller
 {
     /**
@@ -39,12 +43,36 @@ class DepositController extends Controller
     public function update(Request $request, $id)
     {
         $deposit = Deposit::findOrFail($id);
+        $transaction = Transaction::findOrFail($deposit->transaction_id);
         $user = User::findOrFail($deposit->user_id);
-        $user->balance = $user->balance - $deposit->amount;
+
+        if($request->has('update_approve')){
+            $user->balance = $user->balance + $deposit->amount;
+            $deposit->status = 1;
+            $transaction->status = 1;
+            $message = 'Deposit approved Successfully!';
+            $mailData = [
+                'name' => $user->name,
+                'type' => 'Approval',
+                'message' => 'Your deposit request of $'.$deposit->amount.', made on '.$deposit->created_at->toDateString().' has approved' ,
+            ];
+
+        }else{
+            $deposit->status = 0;
+            $transaction->status = 0;
+            $message = 'Deposit Cancelled Successfully!';
+            $mailData = [
+                'name' => $user->name,
+                'type' => 'Rejection',
+                'message' => 'Your deposit request of $'.$deposit->amount.', made on '.$deposit->created_at->toDateString().' has rejected' ,
+            ];
+        }
         $user->save();
-        $deposit->status = 0;
         $deposit->save();
-        return redirect()->back()->with('message', 'Deposit Cancelled Successfully!');
+        $transaction->save();
+        Mail::to($user->email)->send(new TransferOTPMail($mailData));
+
+        return redirect()->back()->with('message', $message);
     }
 
     public function depositSearch(Request $request)

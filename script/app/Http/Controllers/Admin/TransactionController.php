@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TransferOTPMail;
 use App\Models\Banktransection;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TransactionController extends Controller
 {
@@ -26,13 +28,51 @@ class TransactionController extends Controller
         return view('admin.transaction.index');
     }
 
+
+    public function withdrawUpdate(Request $request, $id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        $user = User::findOrFail($transaction->user_id);
+
+        if($request->has('update_approve')){
+            $user->balance = $user->balance - $transaction->amount;
+            if($user->balance < 0){
+                return redirect()->back()->with('message', 'User has not enough balance');
+            }
+            $transaction->status = 1;
+            $message = 'Withdrawal request approved Successfully!';
+            $mailData = [
+                'name' => $user->name,
+                'type' => 'Approval',
+                'message' => 'Your withdrawal request of $'.$transaction->amount.', made on '.$transaction->created_at->toDateString().' has approved' ,
+            ];
+
+        }else{
+            $transaction->status = 0;
+            $message = 'Withdrawal request Cancelled Successfully!';
+            $mailData = [
+                'name' => $user->name,
+                'type' => 'Rejection',
+                'message' => 'Your withdrawal request of $'.$transaction->amount.', made on '.$transaction->created_at->toDateString().' has rejected' ,
+            ];
+        }
+        $user->save();
+        $transaction->save();
+        Mail::to($user->email)->send(new TransferOTPMail($mailData));
+
+        return redirect()->back()->with('message', $message);
+    }
+
+
+
+
     // Other Bank Transaction Request List
     public function bank_transaction_request()
     {
         if (!Auth()->user()->can('transaction')) {
             return abort(401);
          }
-        $transaction_request = Banktransection::where('status', 2)->paginate(20);
+        $transaction_request = Transaction::where('status', 2)->where('type', 'withdraw')->paginate(20);
         return view('admin.transaction.bank_transaction_request', compact('transaction_request'));
     }
 
@@ -41,81 +81,81 @@ class TransactionController extends Controller
             $start_date   = $request->start_date . " 00:00:00";
             $end_date     = $request->end_date . " 23:59:59";
             if ($request->start_date == '' &&  $request->end_date == '') {
-                $transaction_request = Banktransection::where('status', 2)->paginate(10);
+                $transaction_request = Transaction::where('status', 2)->where('type', 'withdraw')->paginate(10);
             }elseif ($request->start_date == '' && $request->end_date != '') {
-                $transaction_request = Banktransection::where('created_at','<', $request->end_date)->where('status', 2)->paginate(10);
+                $transaction_request = Transaction::where('created_at','<', $request->end_date)->where('type', 'withdraw')->where('status', 2)->paginate(10);
             }elseif ($request->start_date != '' && $request->end_date == '') {
-                $transaction_request = Banktransection::where('created_at','>', $request->start_date)->where('status', 2)->paginate(10);
+                $transaction_request = Transaction::where('created_at','>', $request->start_date)->where('type', 'withdraw')->where('status', 2)->paginate(10);
             }else{
-                $transaction_request = Banktransection::whereBetween('created_at', [$start_date, $end_date])->where('status',  2)->paginate(10);
+                $transaction_request = Transaction::whereBetween('created_at', [$start_date, $end_date])->where('type', 'withdraw')->where('status',  2)->paginate(10);
             }
             return view('admin.transaction.bank_transaction_request', compact('transaction_request'));
         }elseif ($request->type == 'account_number') {
             $data = $request->q;
-            $transaction_request = Banktransection::where('status', 2)->whereHas('user', function ($query) use ($data) {
+            $transaction_request = Transaction::where('status', 2)->where('type', 'withdraw')->whereHas('user', function ($query) use ($data) {
                 return $query->where('account_number', 'LIKE', "%$data%");
              })->paginate(10);
              return view('admin.transaction.bank_transaction_request', compact('transaction_request'));
         }elseif ($request->type == 'trx') {
             $data = $request->q;
-            $transaction_request = Banktransection::where('status', 2)->whereHas('transaction', function ($query) use ($data) {
+            $transaction_request = Transaction::where('status', 2)->where('type', 'withdraw')->whereHas('transaction', function ($query) use ($data) {
                 return $query->where('trxid', 'LIKE', "%$data%");
              })->paginate(10);
              return view('admin.transaction.bank_transaction_request', compact('transaction_request'));
         }
     }
 
+
     public function bank_transaction_approved_search(Request $request){ 
         if ($request->type == 'duration') {
             $start_date   = $request->start_date . " 00:00:00";
             $end_date     = $request->end_date . " 23:59:59";
             if ($request->start_date == '' &&  $request->end_date == '') {
-                $transaction_approved = Banktransection::where('status', 1)->paginate(10);
+                $transaction_approved = Transaction::where('status', 1)->where('type', 'withdraw')->paginate(20);
             }elseif ($request->start_date == '' && $request->end_date != '') {
-                $transaction_approved = Banktransection::where('created_at','<', $request->end_date)->where('status', 1)->paginate(10);
+                $transaction_approved = Transaction::where('created_at','<', $request->end_date)->where('status', 1)->where('type', 'withdraw')->paginate(20);
             }elseif ($request->start_date != '' && $request->end_date == '') {
-                $transaction_approved = Banktransection::where('created_at','>', $request->start_date)->where('status', 1)->paginate(10);
+                $transaction_approved = Transaction::where('created_at','>', $request->start_date)->where('status', 1)->where('type', 'withdraw')->paginate(20);
             }else{
-                $transaction_approved = Banktransection::whereBetween('created_at', [$start_date, $end_date])->where('status',  1)->paginate(10);
+                $transaction_approved = Transaction::whereBetween('created_at', [$start_date, $end_date])->where('status', 1)->where('type', 'withdraw')->paginate(20);
             }
             return view('admin.transaction.bank_transaction_approved', compact('transaction_approved'));
         }elseif ($request->type == 'account_number') {
             $data = $request->q;
-            $transaction_approved = Banktransection::where('status', 1)->whereHas('user', function ($query) use ($data) {
+            $transaction_approved = Transaction::where('status', 1)->where('type', 'withdraw')->whereHas('user', function ($query) use ($data) {
                 return $query->where('account_number', 'LIKE', "%$data%");
              })->paginate(10);
              return view('admin.transaction.bank_transaction_approved', compact('transaction_approved'));
         }elseif ($request->type == 'trx') {
             $data = $request->q;
-            $transaction_approved = Banktransection::where('status', 1)->whereHas('transaction', function ($query) use ($data) {
-                return $query->where('trxid', 'LIKE', "%$data%");
-             })->paginate(10);
-             return view('admin.transaction.bank_transaction_approved', compact('transaction_approved'));
+            $transaction_approved = Transaction::where('status', 1)->where('type', 'withdraw')->where('trxid', 'LIKE', "%$data%")->paginate(20);
+            return view('admin.transaction.bank_transaction_approved', compact('transaction_approved'));
         }
     }
-    public function bank_transaction_rejected_search(Request $request){ 
+
+    public function bank_transaction_rejected_search(Request $request){
         if ($request->type == 'duration') {
             $start_date   = $request->start_date . " 00:00:00";
             $end_date     = $request->end_date . " 23:59:59";
             if ($request->start_date == '' &&  $request->end_date == '') {
-                $transaction_rejected = Banktransection::where('status', 0)->paginate(10);
+                $transaction_rejected = Transaction::where('status', 0)->where('type', 'withdraw')->paginate(10);
             }elseif ($request->start_date == '' && $request->end_date != '') {
-                $transaction_rejected = Banktransection::where('created_at','<', $request->end_date)->where('status', 0)->paginate(10);
+                $transaction_rejected = Transaction::where('created_at','<', $request->end_date)->where('type', 'withdraw')->where('status', 0)->paginate(10);
             }elseif ($request->start_date != '' && $request->end_date == '') {
-                $transaction_rejected = Banktransection::where('created_at','>', $request->start_date)->where('status', 0)->paginate(10);
+                $transaction_rejected = Transaction::where('created_at','>', $request->start_date)->where('type', 'withdraw')->where('status', 0)->paginate(10);
             }else{
-                $transaction_rejected = Banktransection::whereBetween('created_at', [$start_date, $end_date])->where('status',  0)->paginate(10);
+                $transaction_rejected = Transaction::whereBetween('created_at', [$start_date, $end_date])->where('type', 'withdraw')->where('status',  0)->paginate(10);
             }
             return view('admin.transaction.bank_transaction_approved', compact('transaction_rejected'));
         }elseif ($request->type == 'account_number') {
             $data = $request->q;
-            $transaction_rejected = Banktransection::where('status', 0)->whereHas('user', function ($query) use ($data) {
+            $transaction_rejected = Transaction::where('status', 0)->where('type', 'withdraw')->whereHas('user', function ($query) use ($data) {
                 return $query->where('account_number', 'LIKE', "%$data%");
              })->paginate(10);
              return view('admin.transaction.bank_transaction_approved', compact('transaction_rejected'));
         }elseif ($request->type == 'trx') {
             $data = $request->q;
-            $transaction_rejected = Banktransection::where('status', 0)->whereHas('transaction', function ($query) use ($data) {
+            $transaction_rejected = Transaction::where('status', 0)->where('type', 'withdraw')->whereHas('transaction', function ($query) use ($data) {
                 return $query->where('trxid', 'LIKE', "%$data%");
              })->paginate(10);
              return view('admin.transaction.bank_transaction_approved', compact('transaction_rejected'));
@@ -126,7 +166,7 @@ class TransactionController extends Controller
         if (!Auth()->user()->can('transaction')) {
             return abort(401);
          }
-        $transaction_approved = Banktransection::where('status', 1)->paginate(20);
+        $transaction_approved = Transaction::where('status', 1)->where('type', 'withdraw')->paginate(20);
         return view('admin.transaction.bank_transaction_approved', compact('transaction_approved'));
     }
 
@@ -152,7 +192,7 @@ class TransactionController extends Controller
         if (!Auth()->user()->can('transaction')) {
             return abort(401);
          }
-        $transaction_rejected = Banktransection::where('status', 0)->paginate(20);
+        $transaction_rejected = Transaction::where('status', 0)->where('type', 'withdraw')->paginate(20);
         return view('admin.transaction.bank_transaction_rejected', compact('transaction_rejected'));
     }
 
