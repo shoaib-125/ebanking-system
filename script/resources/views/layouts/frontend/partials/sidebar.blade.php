@@ -12,6 +12,7 @@
             <nav>
                 <ul>
                     <li class="nav-item {{ Request::is('user/dashboard') ? 'active' : '' }}"><a href="{{ route('user.dashboard') }}" class="active"><span class="iconify" data-icon="feather:home" data-inline="false"></span> {{ __('Dashboard') }}</a></li>
+                    <li class="nav-item {{ Request::is('user/withdraw*') ? 'active' : '' }}"><a href="{{ route('user.withdraw.history') }}" class="active"><span class="iconify" data-icon="feather:home" data-inline="false"></span> {{ __('Withdraw') }}</a></li>
                     <li class="nav-item submenu {{ Request::is('user/transfer*') ? 'show active' : '' }}">
                         <a href="javascript:void(0)">
                             <span class="iconify" data-icon="bx:bx-transfer-alt" data-inline="false"></span> {{ __('Transfer') }}

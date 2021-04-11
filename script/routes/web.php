@@ -419,6 +419,12 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'namespace' => 'User', 'middl
     //Support Route 
     Route::resource('support', 'SupportController');
 
+    //Withdraw Route
+    Route::get('withdraw', 'WithdrawController@withdrawView')->name('withdraw.history');
+    Route::post('withdraw-check', 'WithdrawController@check')->name('withdraw.check');
+    Route::get('withdraw-request', 'WithdrawController@withdrawRequest')->name('withdraw.request.success');
+
+
 });
 
 //**==================================== Payment Gateway Route Group =============================================**//
