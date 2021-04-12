@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/assets/css/all.css') }}">
     @stack('css')
 </head>
 <body>
