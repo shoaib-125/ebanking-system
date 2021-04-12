@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendEmailJob;
 use App\Mail\TransactionMail;
+use App\Mail\TransferOTPMail;
 use App\Mail\UserLoginOtp;
 use App\Models\Deposit;
 use App\Models\Transaction;
@@ -14,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\str;
 use Illuminate\Support\Facades\Session;
@@ -24,7 +26,7 @@ class UserController extends Controller
     public function index()
     {
         if (!Auth()->user()->can('user.index')) {
-           return abort(401);
+            return abort(401);
         }
         $users = User::where('role_id', 2)->paginate(20);
         return view('admin.user.index', compact('users'));
@@ -34,7 +36,7 @@ class UserController extends Controller
     {
         if (!Auth()->user()->can('user.create')) {
             return abort(401);
-         }
+        }
         return view('admin.user.create');
     }
 
@@ -113,7 +115,7 @@ class UserController extends Controller
     {
         if (!Auth()->user()->can('user.edit')) {
             return abort(401);
-         }
+        }
         $user_edit = User::findOrfail($id);
         return view('admin.user.edit', compact('user_edit'));
     }
@@ -125,12 +127,12 @@ class UserController extends Controller
             return abort(403);
         }
         // Validate
-     /*   $request->validate([
-            'name'         => 'required',
-            'email'        => 'required|email|unique:users,email,'.$id,
-            'phone_number' => 'required',
-            // 'password'     => 'required|string|min:6|',
-        ]);*/
+        /*   $request->validate([
+               'name'         => 'required',
+               'email'        => 'required|email|unique:users,email,'.$id,
+               'phone_number' => 'required',
+               // 'password'     => 'required|string|min:6|',
+           ]);*/
         $request->validate([
             'first_name'   => 'required|alpha',
             'last_name'    => 'required|alpha',
@@ -172,6 +174,38 @@ class UserController extends Controller
         $user_update->save();
 
         return response()->json('User Updated Successfully');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        if($request->has('update_verify')){
+            $user->is_verified = 1;
+            $message = 'User Verified Successfully!';
+            $mailData = [
+                'name' => $user->name,
+                'type' => 'Approval',
+                'message' => 'Your account has verified by Admin.',
+            ];
+
+        }elseif($request->has('reject_verify')){
+            $user->is_verified = 0;
+            $user->id_front = 0;
+            $user->id_back = 0;
+            $user->selfie = 0;
+            $user->bill = 0;
+            $message = 'Verification Request Rejected Successfully!';
+            $mailData = [
+                'name' => $user->name,
+                'type' => 'Rejection',
+                'message' => 'Your account verification request has rejected by Admin.',
+            ];
+
+        }
+        $user->save();
+        Mail::to($user->email)->send(new TransferOTPMail($mailData));
+        return redirect()->back()->with('message', $message);
     }
 
 
@@ -248,7 +282,7 @@ class UserController extends Controller
     {
         if (!Auth()->user()->can('user.show')) {
             return abort(401);
-         }
+        }
 
         $user_id  = $id;
         $user_transactions = User::findOrFail($id);
@@ -292,10 +326,10 @@ class UserController extends Controller
         //     }
         // }
         $amount = json_decode(json_encode([
-            'deposit' => $deposit,
-            'withdraw'=> $withdraw,
-            'fee'=> $fee,
-        ]
+                'deposit' => $deposit,
+                'withdraw'=> $withdraw,
+                'fee'=> $fee,
+            ]
         ));
 
         return view('admin.user.view', compact('user_transactions', 'user_id', 'amount'));
@@ -318,7 +352,7 @@ class UserController extends Controller
         if (!Auth()->user()->can('user.verified')) {
             return abort(401);
         }
-        $verified_users = User::where('status', 1)->where('role_id', 2)->paginate(20);
+        $verified_users = User::where('status', 1)->where('phone_verified_at', '!=', null)->where('email_verified_at', '!=', null)->where('is_verified', 1)->where('role_id', 2)->paginate(20);
         return view('admin.user.verified_users', compact('verified_users'));
     }
 
@@ -333,7 +367,7 @@ class UserController extends Controller
     }
 
     // mobile_unverified users
-    public function mobile_unverified()
+    public function email_unverified()
     {
         if (!Auth()->user()->can('user.unverified')) {
             return abort(401);
@@ -343,13 +377,28 @@ class UserController extends Controller
     }
 
     // email_unverified users
-    public function email_unverified()
+    public function mobile_unverified()
     {
         if (!Auth()->user()->can('user.unverified')) {
             return abort(401);
         }
         $email_unverified = User::where('phone_verified_at', null)->where('role_id', 2)->paginate(20);
         return view('admin.user.email_unverified', compact('email_unverified'));
+    }
+
+    // email_unverified users
+    public function newUserView()
+    {
+        $user_unverified = User::where('phone_verified_at', '!=', null)
+            ->where('email_verified_at', '!=', null)
+            ->where('is_verified', 0)
+            ->where('role_id', 2)
+            ->where('id_front', '!=', null)
+            ->where('id_back', '!=', null)
+            ->where('selfie', '!=', null)
+            ->where('bill', '!=', null)
+            ->paginate(20);
+        return view('admin.user.verify', compact('user_unverified'));
     }
 
     // User Search
@@ -444,70 +493,70 @@ class UserController extends Controller
 
         if ($type == 'withdraw') {
             $data = Transaction::where('user_id',$id)
-            ->where(function ($query){
-            $query->where('type','ecurrency_transfer')
-            ->orWhere('type','otherbank_transfer')
-            ->orWhere('type','debit')
-            ->orWhere('type','ownbank_transfer_debit')
-            ->orWhere('type','bill_debit');
-            })
-        ->latest()->get();
+                ->where(function ($query){
+                    $query->where('type','ecurrency_transfer')
+                        ->orWhere('type','otherbank_transfer')
+                        ->orWhere('type','debit')
+                        ->orWhere('type','ownbank_transfer_debit')
+                        ->orWhere('type','bill_debit');
+                })
+                ->latest()->get();
         }elseif ($type == 'deposit') {
             $data = Transaction::where('user_id',$id)
-            ->where(function ($query){
-                $query->where('type','edeposit')
-                ->orWhere('type','credit')
-                ->orWhere('type','ownbank_transfer_credit')
-                ->orWhere('type','bill_credit');
-            })
-            ->latest()->get();
+                ->where(function ($query){
+                    $query->where('type','edeposit')
+                        ->orWhere('type','credit')
+                        ->orWhere('type','ownbank_transfer_credit')
+                        ->orWhere('type','bill_credit');
+                })
+                ->latest()->get();
         }else{
             $data = Transaction::where('user_id',$id)
-            ->latest()->get();
+                ->latest()->get();
         }
         return view('admin.user.report', compact('data','user','type'))->with('i', 1);
     }
 
     public function createPDF($type, $id){
 
-         // retreive all records from db
-         $user = User::findOrFail($id);
-         if ($type == 'withdraw') {
+        // retreive all records from db
+        $user = User::findOrFail($id);
+        if ($type == 'withdraw') {
             $data = Transaction::where('user_id',$id)
-            ->where(function ($query){
-            $query->where('type','ecurrency_transfer')
-            ->orWhere('type','otherbank_transfer')
-            ->orWhere('type','debit')
-            ->orWhere('type','ownbank_transfer_debit')
-            ->orWhere('type','bill_debit');
-            })
-        ->latest()->get();
+                ->where(function ($query){
+                    $query->where('type','ecurrency_transfer')
+                        ->orWhere('type','otherbank_transfer')
+                        ->orWhere('type','debit')
+                        ->orWhere('type','ownbank_transfer_debit')
+                        ->orWhere('type','bill_debit');
+                })
+                ->latest()->get();
         }elseif ($type == 'deposit') {
             $data = Transaction::where('user_id',$id)
-            ->where(function ($query){
-                $query->where('type','edeposit')
-                ->orWhere('type','credit')
-                ->orWhere('type','ownbank_transfer_credit')
-                ->orWhere('type','bill_credit');
-            })
-            ->latest()->get();
+                ->where(function ($query){
+                    $query->where('type','edeposit')
+                        ->orWhere('type','credit')
+                        ->orWhere('type','ownbank_transfer_credit')
+                        ->orWhere('type','bill_credit');
+                })
+                ->latest()->get();
         }else{
             $data = Transaction::where('user_id',$id)
-            ->latest()->get();
+                ->latest()->get();
         }
 
 
-      // share data to view
-    //   view()->share('data',$data);
-      $i = 1;
-      $data = compact('type','id','data','user','i');
-      $now = Carbon::now();
-      $now = $now->toDateTimeString();
-      $file_name = $type.'_report_' . $now. '.pdf';
+        // share data to view
+        //   view()->share('data',$data);
+        $i = 1;
+        $data = compact('type','id','data','user','i');
+        $now = Carbon::now();
+        $now = $now->toDateTimeString();
+        $file_name = $type.'_report_' . $now. '.pdf';
 
 
-      $pdf = PDF::loadView('admin.user.pdf', $data);
-      return $pdf->download($file_name);
+        $pdf = PDF::loadView('admin.user.pdf', $data);
+        return $pdf->download($file_name);
 
     }
 
@@ -531,7 +580,6 @@ class UserController extends Controller
         Session::put('otp_number', $otp);
         Session::put('message', "Check your mail for otp!");
         // dd(env('QUEUE_MAIL'));
-
 
         if (env('QUEUE_MAIL') == 'on') {
             dispatch(new SendEmailJob($data));
