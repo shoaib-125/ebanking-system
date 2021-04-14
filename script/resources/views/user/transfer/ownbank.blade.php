@@ -12,6 +12,7 @@
                     <div class="main-container">
                         <div class="header-section">
                             <h4>{{ __('Transfer') }}</h4>
+                            @include('layouts.frontend.partials.alert')
                         </div>
                         <div class="card">
                             <div class="card-body">

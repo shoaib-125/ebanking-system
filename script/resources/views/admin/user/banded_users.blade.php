@@ -1,7 +1,7 @@
 @extends('layouts.backend.app')
 
 @section('head')
-@include('layouts.backend.partials.headersection',['title'=>'Verified Users'])
+@include('layouts.backend.partials.headersection',['title'=>'Banded Users'])
 @endsection
 
 @section('content')
@@ -73,7 +73,7 @@
                       <td class="text-success">{{ __('Active') }}</td>
                       @endif
                       @if($row->status == 0)
-                      <td class="text-danger">{{ __('Active') }}</td>
+                      <td class="text-danger">{{ __('Inactive') }}</td>
                       @endif
                       <td>
                         <div class="dropdown d-inline">

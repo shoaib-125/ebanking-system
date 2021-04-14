@@ -17,7 +17,7 @@
                   </ul>
               </div>
             @endif
-            <form method="POST" action="{{ route('admin.users.update', $user_edit->id) }}" class="basicform">
+            <form method="POST" action="{{ route('admin.profile.update', $user_edit->id) }}" class="basicform">
               @csrf
               @method('put')
               <div class="card-body">
@@ -124,6 +124,16 @@
                         <input {{ ($user_edit->phone_verified_at) ? 'checked' : '' }} type="checkbox" name="phone_verified_at" class="custom-switch-input">
                         <span class="custom-switch-indicator"></span>
                         <span class="custom-switch-description">{{ __('verify') }}</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-group">
+                      <div class="control-label">{{ __('Block internal fund transfer') }}</div>
+                      <label class="custom-switch mt-2">
+                        <input {{ ($user_edit->is_fund_blocked) ? 'checked' : '' }} type="checkbox" name="is_fund_blocked" class="custom-switch-input">
+                        <span class="custom-switch-indicator"></span>
+                        <span class="custom-switch-description">{{ __('blocked') }}</span>
                       </label>
                     </div>
                   </div>

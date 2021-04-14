@@ -123,16 +123,6 @@ class UserController extends Controller
     //admin update
     public function profile_update(Request $request, $id)
     {
-        if (Auth::user()->id != $id) {
-            return abort(403);
-        }
-        // Validate
-        /*   $request->validate([
-               'name'         => 'required',
-               'email'        => 'required|email|unique:users,email,'.$id,
-               'phone_number' => 'required',
-               // 'password'     => 'required|string|min:6|',
-           ]);*/
         $request->validate([
             'first_name'   => 'required|alpha',
             'last_name'    => 'required|alpha',
@@ -147,31 +137,34 @@ class UserController extends Controller
             //'password'     => 'required|string|min:6|',
         ]);
 
-        // Account check
-        $rend  = rand(100000, 888888) . rand(10000, 88888);
-        $check = User::where('account_number', $rend)->first();
-        if ($check == true) {
-            return redirect()->back()->with('error', 'Account Number Already Exist');
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
         }
-
-        // User update
-        $user_update        = User::findOrFail($id);
-        $user_update->name  = $request->name;
-        $user_update->email = $request->email;
-
+        $user->first_name  = $request->first_name;
+        $user->last_name  = $request->last_name;
+        $user->dob  = $request->dob;
+        $user->cnic  = $request->cnic;
+        $user->mother_name  = $request->mother_name;
+        $user->address  = $request->address;
+        $user->security_question  = $request->security_question;
+        $user->answer  = $request->answer;
+        $user->status         = $request->status;
+        $user->phone    = $request->phone_number;
         if ($request->password != '') {
-            $user_update->password = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
+        }
+        if ($request->phone_verified_at == 'on' && ($user->phone_verified_at == null || $user->phone_verified_at == '')) {
+            $user->phone_verified_at = date('Y-m-d H:i:s');
+        }
+        if ($request->email_verified_at == 'on' && ($user->email_verified_at == null || $user->email_verified_at == '')) {
+            $user->email_verified_at = date('Y-m-d H:i:s');
         }
 
-        $user_update->phone = $request->phone_number;
+        //$user->two_step_auth = ($request->two_step_auth == 'on') ? 1 : 0;
+        $user->is_fund_blocked = ($request->is_fund_blocked == 'on') ? 1 : 0;
 
-        if ($request->two_step_auth == 'on') {
-            $user_update->two_step_auth = 1;
-        } else {
-            $user_update->two_step_auth = 0;
-        }
-
-        $user_update->save();
+        $user->save();
 
         return response()->json('User Updated Successfully');
     }

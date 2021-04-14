@@ -29,6 +29,11 @@ class TransferController extends Controller
 
     //Own Bank Transfer Confirmation
     public function ownbankConfirm(Request $request){
+        $user = User::find(Auth::id());
+        if($user->is_fund_blocked){
+            return redirect()->back()->withErrors("You are not allowed to transfer. Pleases contact to our support.");
+        }
+
         $request->validate([
             'account_no'    => 'required',
             'amount'        => 'required',
