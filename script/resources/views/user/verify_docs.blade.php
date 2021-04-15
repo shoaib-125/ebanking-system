@@ -1,7 +1,6 @@
 @extends('layouts.frontend.app')
 
 @section('content')
-    <link rel="stylesheet" href="{{ asset('frontend/assets/css/all.css') }}">
 
     <!-- dahboard area start -->
 <section>
