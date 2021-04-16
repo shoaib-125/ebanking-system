@@ -6,82 +6,20 @@
 /*************************
         General Style
 **************************/
-p {
-    font-size: 16px;
-    margin: 0;
-}
-h1,h2,h3,h4,h5,h6{
-    margin: 0;
-    color:inherit;
-    font-weight: inherit;
-}
-h1 {
-    font-size: 45px;
-}
-h2 {
-    font-size: 36px;
-}
-h3 {
-    font-size: 30px;
-}
-h4 {
-    font-size: 22px;
-}
-h5 {
-    font-size: 18px;
-}
-h6 {
-    font-size: 12px;
-}
-span,a {
-    display: inline-block;
-}
-a:hover,
-a:focus {
-    color: inherit;
-    text-decoration:none;
-}
 
-button:focus,
-select:focus,
-input:focus,
-textarea:focus {
-    outline: none;
-}
-select{
-    background-image: url('../images/down-icons.png');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-color: transparent;
-    padding: 8px 12px;
-    -webkit-appearance: none;
-    border: 1px solid #C9C9C9;
-    width: 100%;
-    border-radius: 5px;
-}
-input {
+.section-body .cus-row input {
     width: 100%;
     border: none;
     border-radius: 5px;
     outline: none;
 }
-label{
-    color:#3E1551;
-    font-weight:400;
-    font-size:14px;
-    display: block;
+.section-body .cus-row h5 {
+    font-size: 18px;
+    margin: 0;
+    color:inherit;
+    font-weight: inherit;
 }
-ul{
-    margin:0;
-    padding:0;
-}
-li{
-    list-style:none;
-}
-img {
-    max-width: 100%;
-    display: block;
-}
+
 .cus-row {
     display: flex;
     flex-wrap: wrap;
@@ -144,6 +82,9 @@ img {
     margin: 0;
     text-align: center;
     display: block;
+}
+.section-body .cus-row .btn{
+    background-color: #6777ef;
 }
 .custom-upload span {
     background-color: #6777ef;
@@ -267,6 +208,22 @@ img {
 .cus-row.tabs-actives .tabs-forms .nav-tabs li a.active span {
     color: #EE2357;
 }
+
+.profile-gallery {
+    position: relative;
+    width: 150px;
+    margin-top: 25px;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 120px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+
 @media (max-width: 991px){
     .login .cus-row {
         flex-direction: column-reverse;
