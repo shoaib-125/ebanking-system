@@ -37,7 +37,9 @@ class DashboardController extends Controller
         $debit1 = Transaction::where('user_id', Auth::user()->id)->where('status', 1)->where('type','ownbank_transfer_debit')->sum('amount');
         $debit=$debit0+$debit1;
 
-        $total_withdraw    = Withdraw::where('user_id', Auth::user()->id)->where('status', 1)->sum('amount_usd') + $debit;
+        //$total_withdraw    = Withdraw::where('user_id', Auth::user()->id)->where('status', 1)->sum('amount_usd') + $debit;
+        $total_withdraw = Transaction::where('user_id', Auth::user()->id)->where('status', 1)->where('type','withdraw')->sum('amount');
+        
 
         $transactions      = Transaction::where('user_id', Auth::user()->id)->latest()->take(10)->get();
 
