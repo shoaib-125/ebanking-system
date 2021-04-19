@@ -13,15 +13,34 @@
 				<form method="post" action="{{ route('admin.admin.store') }}" class="basicform_with_reset">
 					@csrf
 					<div class="pt-20">
+
+							<div class="form-row">
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>{{ __('First Name') }}</label>
+										<input type="text" class="form-control" placeholder="First Name" required name="first_name">
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>{{ __('Last Name') }}</label>
+										<input type="text" class="form-control" placeholder="Last Name" required name="last_name">
+									</div>
+								</div>
+							</div>
+
+
 						<div class="form-group">
-							<label for="name">{{ __('Name') }}</label>
-							<input type="text" required class="form-control" name="name" placeholder="Enter admin name" >
+							<label>{{ __('Email') }}</label>
+							<input type="email" class="form-control" placeholder="Email Address" required name="email">
 						</div>
-						
+
+
 						<div class="form-group">
-							<label for="email">{{ __('Email') }}</label>
-							<input type="email" required class="form-control" name="email" placeholder="Enter email" >
+							<label>{{ __('CNIC') }}</label>
+							<input type="number" class="form-control" placeholder="CNIC" required name="cnic">
 						</div>
+
 						
 						<div class="form-group">
 							<label for="email">{{ __('Phone') }}</label>
@@ -41,7 +60,7 @@
                             <label >{{ __('Assign Roles') }}</label>
                             <select required name="roles[]" id="roles" class="form-control select2" multiple>
                                 @foreach ($roles as $role)
-                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
                                 @endforeach
                             </select>
                         </div>
