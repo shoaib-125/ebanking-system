@@ -17,12 +17,12 @@ class AlterUserTable extends Migration
             $table->dropColumn('name');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('dob');
+            $table->string('dob')->nullable();
             $table->integer('cnic');
-            $table->string('mother_name');
-            $table->text('address');
-            $table->text('security_question');
-            $table->text('answer');
+            $table->string('mother_name')->nullable();
+            $table->text('address')->nullable();
+            $table->text('security_question')->nullable();
+            $table->text('answer')->nullable();
             $table->string('invite_code')->nullable();
         });
     }
