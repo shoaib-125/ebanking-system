@@ -86,6 +86,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Admin Dashboard Route
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('activity_log', 'DashboardController@activityLogs')->name('activity_log');
     Route::post('dashboard-info', 'DashboardController@statistics')->name('dashboard.statistics');
 
     // Roles Route

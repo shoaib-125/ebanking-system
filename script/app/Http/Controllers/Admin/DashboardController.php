@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Banktransection;
 use App\Models\Deposit;
 use App\Models\Fdrtransaction;
@@ -14,6 +15,8 @@ use App\Models\Withdraw;
 use App\Models\Support;
 use Illuminate\Http\Request;
 use Auth;
+use phpDocumentor\Reflection\Types\Compound;
+
 class DashboardController extends Controller
 {
     // Admin Dashboard 
@@ -23,6 +26,13 @@ class DashboardController extends Controller
            return abort(401);
         }
         return view('admin.dashboard');
+    }
+
+    public function activityLogs()
+    {
+        $activityLogs = ActivityLog::with('causedBy','causedOnTo')->get();
+
+        return view('admin.activity_logs',compact('activityLogs'));
     }
 
     public function statistics(){

@@ -14,8 +14,8 @@ class CreateActivityLogTable extends Migration
         Schema::create('activity_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('log_name');
-            $table->bigInteger('causer', 'causer');
-            $table->morphs('causedOn','causedOn');
+            $table->bigInteger('causer');
+            $table->bigInteger('causedOn');
             $table->json('properties')->nullable();
             $table->timestamps();
             $table->index('log_name');

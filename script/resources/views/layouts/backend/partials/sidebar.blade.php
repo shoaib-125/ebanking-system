@@ -12,6 +12,11 @@
             <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span>{{ __('Dashboard') }}</span></a>
           </li>
           @endcan
+
+              <li class="{{ Request::is('admin/activity_log') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.activity_log') }}"><i class="fas fa-tachometer-alt"></i> <span>{{ __('Activity Logs') }}</span></a>
+              </li>
+
           @can('transaction')
           <!--- Transaction Modules --->
           <li class="menu-header">{{ __('Withdraw & Transactions') }}</li>

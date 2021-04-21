@@ -10,9 +10,8 @@ trait ActivityLog
     {
         $activityLog = new \App\Models\ActivityLog();
         $activityLog->log_name = $logName;
-        $activityLog->causer_id = \Auth::user();
-        $activityLog->causedOn_id = $causedOn;
+        $activityLog->causer = \Auth::user()->id;
+        $activityLog->causedOn = $causedOn->id;
         $activityLog->save();
-       dd($activityLog);
     }
 }

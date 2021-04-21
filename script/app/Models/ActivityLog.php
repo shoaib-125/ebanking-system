@@ -9,5 +9,15 @@ class ActivityLog extends Model
 {
     use HasFactory;
 
+    // Relation To User
+    public function causedBy()
+    {
+        return $this->belongsTo(User::class, 'causer', 'id');
+    }
+
+    public function causedOnTO()
+    {
+        return $this->belongsTo(Deposit::class,'causedOn','id');
+    }
 
 }
