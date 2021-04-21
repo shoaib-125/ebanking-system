@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\TransferOTPMail;
 use App\Models\Deposit;
 use App\Models\Transaction;
+use App\Traits\ActivityLog;
 use Illuminate\Http\Request;
 use App\Models\Getway;
 use App\Models\User;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class DepositController extends Controller
 {
+    use ActivityLog;
     /**
      * Display a listing of the resource.
      *
@@ -47,15 +49,18 @@ class DepositController extends Controller
         $user = User::findOrFail($deposit->user_id);
 
         if($request->has('update_approve')){
+
             $user->balance = $user->balance + $deposit->amount;
             $deposit->status = 1;
             $transaction->status = 1;
             $message = 'Deposit approved Successfully!';
+            $this->logActivity('completeDeposit',$deposit);
             $mailData = [
                 'name' => $user->name,
                 'type' => 'Approval',
                 'message' => 'Your deposit request of $'.$deposit->amount.', made on '.$deposit->created_at->toDateString().' has approved' ,
             ];
+
 
         }else{
             $deposit->status = 0;
@@ -67,6 +72,7 @@ class DepositController extends Controller
                 'message' => 'Your deposit request of $'.$deposit->amount.', made on '.$deposit->created_at->toDateString().' has rejected' ,
             ];
         }
+
         $user->save();
         $deposit->save();
         $transaction->save();

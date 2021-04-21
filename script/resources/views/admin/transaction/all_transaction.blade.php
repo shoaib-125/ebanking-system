@@ -87,7 +87,7 @@
                           @if($row->status == 1)
                           <span class="badge badge-success">{{ __('Success') }}</span>
                           @else
-                          <span class="badge badge-danger">{{ __('Faild') }}</span>
+                          <span class="badge badge-warning">{{ __('Pending') }}</span>
                           @endif
                       </td>
                       <td>  
