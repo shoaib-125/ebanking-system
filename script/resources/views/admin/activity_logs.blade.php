@@ -24,7 +24,7 @@
                             <tbody>
                             @foreach($activityLogs as $row)
                                 <tr>
-                                   
+
                                     <td>{{ $row->log_name }}</td>
                                     <td>{{ $row->causedBy->email }}</td>
                                     <td>

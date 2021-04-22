@@ -24,20 +24,32 @@ class TransferController extends Controller
     //==================== OWN BANK TRANSFER=========================//
     //Own Bank Info view
     public function ownbank(){
+
         return view('user.transfer.ownbank');
     }
 
     //Own Bank Transfer Confirmation
     public function ownbankConfirm(Request $request){
+
         $user = User::find(Auth::id());
         if($user->is_fund_blocked){
             return redirect()->back()->withErrors("You are not allowed to transfer. Pleases contact to our support.");
+        }
+        if(!$user->transaction_pin)
+        {
+            return redirect()->back()->withErrors("Please, generate your transaction pin to proceed");
         }
 
         $request->validate([
             'account_no'    => 'required',
             'amount'        => 'required',
+            'transaction_pin'        => 'required',
         ]);
+
+        if($request->transaction_pin != \Auth::user()->transaction_pin)
+        {
+            return redirect()->back()->withErrors("Your transaction pin is incorrect,please try again");
+        }
 
         // DB transfer info here 
         $transfer_credentials = Option::where('key','ownbank_charge')->get()->first();
@@ -53,23 +65,27 @@ class TransferController extends Controller
 
         //check if account exists
         if (!$account_check) {
-            return redirect()->back()->with('account_err', "Invalid Account Number!")->withInput();
+            return redirect()->back()->withErrors("Invalid Account Number!");
         }
 
         //if balance amount not empty
         if ($user_balance == '') {
-            return redirect()->back()->with('error', "Balance is empty!")->withInput();
+            return redirect()->back()->withErrors("Insufficient Balance!");
         }
 
         //if balance amount is valid
         if ($amount >= $user_balance) {
-            return redirect()->back()->with('error', "Cannot transfer more than: " . $user_balance)->withInput();
+            return redirect()->back()->withErrors("Insufficient Balance!");
+         //   return redirect()->back()->with('error', "Cannot transfer more than: " . $user_balance)->withInput();
         }
+
             //if amount is valid
         if ($amount < (double) $transfer_credentials->min_amount) {
-            return redirect()->back()->with('error', "Cannot be less than " . $transfer_credentials->min_amount)->withInput();
+            return redirect()->back()->withErrors("Amount Cannot be less than " . $transfer_credentials->min_amount);
+         /*   return redirect()->back()->with('error', ")->withInput();*/
         }elseif ($amount > (double) $transfer_credentials->max_amount) {
-            return redirect()->back()->with('error', "Cannot be greater than " . $transfer_credentials->max_amount)->withInput();
+            return redirect()->back()->withErrors("Amount Cannot be greater than " . $transfer_credentials->max_amount);
+           // return redirect()->back()->with('error', "Cannot be greater than " . $transfer_credentials->max_amount)->withInput();
         }
 
         $charge = 0;

@@ -214,4 +214,25 @@ class AccountSettingController extends Controller
         $search_statement = Transaction::where('user_id', Auth::id())->whereBetween('created_at', [$start_date, $end_date])->get();
         return view('user.accountsetting.search_statement', compact('search_statement', 'start_date', 'end_date'));
     }
+
+    public function generatePin(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|password',
+            'transaction_pin'         => 'required|max:9999',
+        ]);
+
+        if (Auth::attempt(['id' => Auth::user()->id, 'password' => $request->current_password])) {
+
+            $user = User::findorfail(\Auth::user()->id);
+            $user->transaction_pin = $request->transaction_pin;
+            $user->save();
+
+            return redirect()->back()->with('success', 'Transaction Pin Is Generated');
+
+        }else {
+            return redirect()->back()->with('error', 'Current Password Not Match');
+        }
+
+    }
 }

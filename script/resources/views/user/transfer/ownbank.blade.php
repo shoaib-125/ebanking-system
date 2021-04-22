@@ -40,11 +40,34 @@
                                             </div>
                                             @if(Session::has('error'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ Session::get('error') }}</strong>
+                                                {{dump( $errors->first)}}
+                                                 <div class="error">{{ $errors->first('error') }}</div>
+                                                <strong>{{   $errors}}</strong>
                                             </span>
                                             @endif
                                         </div>
                                     </div>
+                                   <div class="row">
+                                       <div class="col-lg-12">
+                                           <div class="form-group">
+                                               <label for="">{{ __('Enter Your Transaction Pin') }}</label>
+                                               <input type="number" name="transaction_pin" class="{{ Session::has('error') ? 'is-invalid' : '' }} form-control" value="{{ old('transaction_pin') }}" placeholder="{{ __('Transaction Pin') }}">
+                                           </div>
+                                           @if(Session::has('error'))
+                                               <span class="invalid-feedback" role="alert">
+                                                <strong>{{ Session::get('error') }}</strong>
+                                            </span>
+                                           @endif
+                                       </div>
+                                   </div>
+                                   @if(!\Auth::user()->transaction_pin)
+                                       <div class="col-lg-12 text-center mt-3">
+                                           <div class="button-btn">
+
+                                               <a href="{{ url('user/transfer/pin')}}" class="button d-block w-100">{{ __('Generate Your Transaction Pin') }}</a>
+                                           </div>
+                                       </div>
+                                   @else
                                     <div class="row">
                                         <div class="col-lg-12 text-center mt-3">
                                             <div class="button-btn">
@@ -52,6 +75,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                   @endif
                                </form>
                             </div>
                         </div>

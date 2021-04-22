@@ -42,6 +42,13 @@ Route::get('/register', 'User\LoginController@register_form')->name('register');
 Route::get('/fdr/request/activate', 'Admin\FixeddepositController@fdr_request_activate')->name('fdr.activate');
 Route::get('/cron/work', 'Admin\FixeddepositController@fdr_request_activate')->name('fdr.activate');
 
+Route::get("/user/transfer/pin", function(){
+    return view('user.accountsetting.generate_pin');
+});
+
+Route::post('user/transfer/generate-pin', 'User\AccountSettingController@generatePin')->name('user.transfer.generate-pin');
+
+
 // Phone Verification Routes
 Route::get('phone-verification', 'User\LoginController@phone_verification')->name('phone.verification')->middleware('auth');
 Route::post('phone-verification-check', 'User\LoginController@phone_verification')->name('phone.verification.check');
