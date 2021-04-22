@@ -42,7 +42,7 @@ a:hover{
 /* 2. header */
 .header-area {
     padding: 25px 0;
-    background: #6777ef;
+    background: #1b109be6;
 }
 
 .header-menu ul {
@@ -788,7 +788,7 @@ span.calculation-payment-select {
 }
 
 .sidebar-area {
-    background: #fff;
+    background: #1b109be6;;
     padding: 35px 0;
     border-radius: 5px;
 }
@@ -817,7 +817,7 @@ span.calculation-payment-select {
 }
 
 .slidebar-nav-area ul li.nav-item a {
-    color: #6777ef;
+    color: #fff;
     display: flex;
     align-items: center;
 }
@@ -1046,7 +1046,7 @@ table.table tbody tr td {
 .login-btn button {
     margin-top: 20px;
     border: none;
-    background: #6777ef;
+    background: #1b109be6;
     color: #fff;
     width: 100%;
     height: 55px;
@@ -1358,7 +1358,7 @@ img.support-author-img {
 
 /* 17. footer */
 .footer-area {
-    background: #6777ef;
+    background: #1b109be6;
     padding: 100px 0;
 }
 
@@ -1515,7 +1515,7 @@ img.support-author-img {
 }
 
 .footer-area.footer-demo-1 .footer-newsletter-input button {
-    background: #3867b5;
+    background: #1b109be6;
     color: #fff;
 }
 
