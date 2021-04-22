@@ -67,7 +67,7 @@ a:hover{
 }
 
 .header-btn a {
-    color: #6777ef;
+    color: #1b109be6;
     border: 1px solid #fff;
     padding: 13px 40px;
     background: #fff;
@@ -111,7 +111,7 @@ a:hover{
 }
 
 .header-language-area .dropdown-menu a {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 16px;
 }
 
@@ -162,7 +162,7 @@ a:hover{
 }
 
 .header-menu ul li ul.sub li a {
-    color: #6777ef;
+    color: #1b109be6;
     padding: 0;
     font-size: 16px;
 }
@@ -182,7 +182,7 @@ a:hover{
 .breadcrump-area {
     padding-top: 150px;
     padding-bottom: 100px;
-    background: #6777ef;
+    background: #1b109be6;
 }
 
 .breadcrump-title h4 {
@@ -203,7 +203,7 @@ a:hover{
 /* 4. hero */
 .hero-area
 {
-    background: #6777ef;
+    background: #1b109be6;
     padding-bottom: 150px;
 }
 
@@ -258,7 +258,7 @@ a:hover{
     padding: 0 12px;
     padding-top: 26px;
     font-size: 21px;
-    color: #6777ef;
+    color: #1b109be6;
     width: 100%;
 }
 
@@ -432,7 +432,7 @@ span.calculation-payment-select {
 /* 5. how it works */
 .section-title h4 {
     font-size: 40px;
-    color: #6777ef;
+    color: #1b109be6;
     font-weight: 500;
 }
 
@@ -452,7 +452,7 @@ span.calculation-payment-select {
 }
 
 .single-how-it-works .title-section {
-    color: #6777ef;
+    color: #1b109be6;
     margin-bottom: 15px;
 }
 
@@ -479,14 +479,14 @@ span.calculation-payment-select {
 }
 
 .single-service:hover{
-    background: #6777ef;
+    background: #1b109be6;
 }
 
 .service-title {
     margin-bottom: 20px;
 }
 
-.service-title h3 {color: #6777ef;}
+.service-title h3 {color: #1b109be6;}
 
 .single-service:hover .service-title h3{
     color: #fff;
@@ -504,7 +504,7 @@ span.calculation-payment-select {
 }
 
 .service-action a {
-    color: #6777ef;
+    color: #1b109be6;
     font-weight: 600;
     font-size: 17px;
 }
@@ -562,13 +562,13 @@ span.calculation-payment-select {
 
 .counter-number h2 {
     font-size: 40px;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .counter-number p {
     margin-bottom: 0;
     font-size: 21px;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 /* 8. sponser */
@@ -584,13 +584,13 @@ span.calculation-payment-select {
 }
 
 .sponser-name h3 {
-    color: #6777ef;
+    color: #1b109be6;
     margin-bottom: 5px;
     font-weight: 600;
 }
 
 .sponser-position p {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 17px;
 }
 
@@ -610,7 +610,7 @@ span.calculation-payment-select {
 }
 
 .sponser-social-links ul li a {
-    background: #6777ef;
+    background: #1b109be6;
     color: #fff;
     border-radius: 36px;
     display: flex;
@@ -641,12 +641,12 @@ span.calculation-payment-select {
 }
 
 .feedback-des p {
-    color: #6777ef;
+    color: #1b109be6;
     margin-bottom: 35px;
 }
 
 .feedback-user-name h5 {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 30px;
 }
 
@@ -705,7 +705,7 @@ span.calculation-payment-select {
 
 .blog-title h3 {
     font-size: 32px;
-    color: #6777ef;
+    color: #1b109be6;
     margin-bottom: 15px;
 }
 
@@ -727,7 +727,7 @@ span.calculation-payment-select {
 }
 
 .blog-card-header h3 {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 25px;
     margin-bottom: 15px;
 }
@@ -746,7 +746,7 @@ span.calculation-payment-select {
 
 .blog-card-body button {
     border: none;
-    background: #6777ef;
+    background: #1b109be6;
     border-radius: 5px;
     color: #fff;
     padding: 0 25px;
@@ -762,12 +762,12 @@ span.calculation-payment-select {
 }
 
 .blog-small-title a {
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .no-data-found p {
     font-size: 25px;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .blog-details .single-news {
@@ -795,7 +795,7 @@ span.calculation-payment-select {
 
 .user-name h3 {
     font-size: 21px;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .sidebar-top-content {
@@ -884,12 +884,12 @@ ul.submenu li a {
 }
 
 .count h4 {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 35px;
 }
 
 .icon svg {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 45px;
 }
 
@@ -899,7 +899,7 @@ ul.submenu li a {
 
 .balence-label p {
     margin-bottom: 0;
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 18px;
 }
 
@@ -920,7 +920,7 @@ ul.submenu li a {
     margin-bottom: 0;
     font-weight: 400;
     font-size: 17px;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .card-header {
@@ -941,7 +941,7 @@ ul.submenu li a {
     height: 55px;
     padding: 0 15px;
     cursor: pointer;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .form-group textarea {
@@ -950,7 +950,7 @@ ul.submenu li a {
 
 .form-group input .form-control{
     padding: 0 20px;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .form-group .form-control::placeholder {
@@ -962,14 +962,14 @@ ul.submenu li a {
     outline: 0;
     box-shadow: none;
     border-color: #ddd;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .form-group select:focus {
     outline: 0;
     box-shadow: none;
     border-color: #ddd;
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .form-group {
@@ -978,7 +978,7 @@ ul.submenu li a {
 
 .button-btn button {
     border: none;
-    background: #6777ef;
+    background: #1b109be6;
     color: #fff;
     padding: 13px 45px;
     border-radius: 5px;
@@ -993,7 +993,7 @@ ul.submenu li a {
 }
 
 table.table thead tr th {
-    color: #6777ef;
+    color: #1b109be6;
     font-weight: 500;
 }
 
@@ -1071,7 +1071,7 @@ table.table tbody tr td {
 }
 
 .deposit-name h3 {
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .requirments-menu ul {
@@ -1082,12 +1082,12 @@ table.table tbody tr td {
 
 .requirments-menu ul li {
     list-style: none;
-    color: #6777ef;
+    color: #1b109be6;
     margin-bottom: 10px;
 }
 
 .desposit-action a {
-    background: #6777ef;
+    background: #1b109be6;
     color: #fff;
     padding: 14px 35px;
     border-radius: 10px;
@@ -1191,7 +1191,7 @@ table.table tbody tr td {
   }
   .chat-box .chat-content .chat-item.chat-right .chat-details .chat-text {
     text-align: left;
-    background-color: #6777ef;
+    background-color: #1b109be6;
     color: #fff;
   }
   .chat-box .chat-content .chat-item > img {
@@ -1266,13 +1266,13 @@ table.table tbody tr td {
 
 /* 16. contact */
 .contact-title h3 {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 40px;
     font-weight: 600;
 }
 
 .contact-title p {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 17px;
 }
 
@@ -1281,7 +1281,7 @@ table.table tbody tr td {
 }
 
 .contact-form label {
-    color: #6777ef;
+    color: #1b109be6;
 }
 
 .contact-form textarea {
@@ -1290,7 +1290,7 @@ table.table tbody tr td {
 
 .contact-form button {
     border: none;
-    background: #6777ef;
+    background: #1b109be6;
     color: #fff;
     padding: 15px 35px;
     border-radius: 5px;
@@ -1303,7 +1303,7 @@ table.table tbody tr td {
 }
 
 .page-body p {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 15px;
     line-height: 1.9;
 }
@@ -1319,14 +1319,14 @@ table.table tbody tr td {
 
 .ecurrency-name h3 {
     font-size: 21px;
-    color: #6777ef;
+    color: #1b109be6;
     margin-bottom: 20px;
     font-weight: 600;
     margin-top: 20px;
 }
 
 .modal-title {
-    color: #6777ef;
+    color: #1b109be6;
     font-size: 18px;
 }
 
@@ -1335,7 +1335,7 @@ table.table tbody tr td {
 }
 
 .button-btn a {
-    background: #6777ef;
+    background: #1b109be6;
     color: #fff;
     padding: 12px 25px;
     border-radius: 5px;
@@ -1350,7 +1350,7 @@ img.support-author-img {
 
 .resend-otp {
     text-decoration: none;
-    color: #6777ef;
+    color: #1b109be6;
     font-weight: 500;
     font-size: 18px;
 }
