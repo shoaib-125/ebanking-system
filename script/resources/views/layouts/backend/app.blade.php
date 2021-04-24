@@ -10,7 +10,6 @@
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('backend/admin/assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/admin/assets/css/all.min.css') }}">
-
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('backend/admin/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/admin/assets/css/components.css') }}">

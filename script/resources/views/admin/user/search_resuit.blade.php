@@ -58,6 +58,7 @@
                           Action
                           </button>
                           <div class="dropdown-menu">
+                            <a class="dropdown-item has-icon" href="{{ route('admin.users.show', $row->id) }}"><i class="fa fa-eye"></i>{{ __('View') }}</a>
                             <a class="dropdown-item has-icon" href="{{ route('admin.users.edit', $row->id) }}"><i class="fa fa-edit"></i>{{ __('edit') }}</a>
                             <a class="dropdown-item has-icon" href="{{ url('/login') }}"><i class="fa fa-edit"></i>{{ __('Login') }}</a>
                             <a class="dropdown-item has-icon delete-confirm" href="javascript:void(0)" data-id={{ $row->id }}><i class="fa fa-trash"></i>{{ __('Delete') }}</a>

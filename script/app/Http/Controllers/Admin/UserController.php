@@ -28,7 +28,9 @@ class UserController extends Controller
         if (!Auth()->user()->can('user.index')) {
             return abort(401);
         }
-        $users = User::where('role_id', 2)->paginate(20);
+       // $users = User::where('role_id', 2)->paginate(20);
+        $users = User::paginate(10);
+
         return view('admin.user.index', compact('users'));
     }
 

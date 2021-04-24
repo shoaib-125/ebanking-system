@@ -96,12 +96,21 @@
                       </td>
                     </tr>
                     @endforeach
+
                   </tbody>
                 </table>
+
+                {{-- Pagination --}}
+                <div class="d-flex justify-content-center">
+                    {!! $users->links() !!}
+                </div>
+
               </div>
           </div>
       </div>
+
     </div>
+
 </div>
 @endsection
 
