@@ -1,5 +1,6 @@
 {
     "require": {
-        "spatie/laravel-activitylog": "^3.17"
+        "spatie/laravel-activitylog": "^3.17",
+        "barryvdh/laravel-dompdf": "^0.9.0"
     }
 }

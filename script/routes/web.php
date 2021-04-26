@@ -95,6 +95,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         return view('admin.search.index');
     })->name('search.index');
     Route::post('search', 'AdminController@search')->name('search');
+    Route::post('search/export/{trans_id}', 'AdminController@exportSearch')->name('search.export');
 
     // Admin Dashboard Route
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');

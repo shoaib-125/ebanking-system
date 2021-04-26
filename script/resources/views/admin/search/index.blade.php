@@ -111,10 +111,24 @@
                         </form>
                         @if(isset($transaction))
                         <div class="form-row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <a class="btn btn-primary btn-lg mt-md-4 mt-lg-4 float-right w-100 basicbtn" style="margin-left: 5px; margin-right: 5px;" href="{{ route('admin.user.login', $transaction->user_id) }}">{{ __('Login as User') }}</a>
                                 </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <form method="POST" enctype="multipart/form-data" action="{{ route('admin.search.export', $transaction->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="form_type" value="csv_export">
+                                    <button type="submit" class="btn btn-primary btn-lg mt-md-4 mt-lg-4 float-right w-100 basicbtn">{{ __('Export CSV') }}</button>
+                                </form>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <form method="POST" enctype="multipart/form-data" action="{{ route('admin.search.export', $transaction->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="form_type" value="pdf_export">
+                                    <button type="submit" class="btn btn-primary btn-lg mt-md-4 mt-lg-4 float-right w-100 basicbtn">{{ __('Export PDF') }}</button>
+                                </form>
                             </div>
                         </div>
                         @endif

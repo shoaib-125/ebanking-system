@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\User;
+use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use PDF;
 
 class AdminController extends Controller
 {
@@ -224,10 +226,69 @@ class AdminController extends Controller
 
         }
 
-
-
         $data['transaction'] = $transaction;
         return view('admin.search.index')->with($data);
+
+    }
+
+    function exportSearch(Request $request, $trans_id){
+        $transaction = Transaction::with('user')->find($trans_id);
+        if(!$transaction){
+            return view('admin.search.index')->withErrors('Transaction not found');
+        }
+
+        $columns = array('Transaction ID', 'Account number', 'CNIC', 'Mobile number', 'Email', 'Transaction Type', 'Date', 'Amount', 'Fee', 'From Account', 'To Account', 'Summary', 'Status' );
+        $status = '';
+        if($transaction->status == 0)
+            $status = 'Rejected';
+        elseif($transaction->status == 1)
+            $status = 'Approved';
+        elseif($transaction->status == 2)
+            $status = 'Pending';
+        else
+            $status = '-';
+        $data[0] = array(
+            $transaction->trxid,
+            $transaction->user->account_number,
+            $transaction->user->cnic,
+            $transaction->user->phone,
+            $transaction->user->email,
+            $transaction->type,
+            $transaction->created_at->format('Y-m-d H:i:s'),
+            $transaction->amount,
+            $transaction->fee,
+            '-',
+            '-',
+            $transaction->info,
+            $status);
+
+        $type = $request->form_type;
+        if($type == 'csv_export'){
+            $fileName = 'search_result'.DateTime::dateTime()->format('Y-m-d-H-i-s').'.csv';
+            $headers = array(
+                "Content-type"        => "text/csv",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+
+            $callback = function() use($transaction, $columns, $data) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns);
+                foreach ($data as $row){
+                    fputcsv($file, $row);
+
+                }
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+        }elseif($type == 'pdf_export') {
+            $pdf = PDF::loadView('admin.search.pdf', compact('data', 'columns'));
+            return $pdf->download('ddd.pdf');
+        }
+
+        return redirect()->back();
 
     }
 }
