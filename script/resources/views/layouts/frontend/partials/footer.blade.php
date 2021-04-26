@@ -58,7 +58,7 @@
     </div>
     <div class="footer-bottom-area footer-demo-1">
         <div class="footer-bottom-content text-center">
-            <span>{{ __('Copyright © Website') }} - {{ date('Y') }}. {{ __('Develop By') }} <a href="{{ url('/') }}">{{ env('APP_NAME') }}</a></span>
+            <span>{{ __('Copyright © Website') }} - {{ date('Y') }}. {{ __('Develop By') }} <a target="_blank" href="{{ url('https://technosofts.net') }}/">{{ 'TechnoSofts' }}</a></span>
         </div>
     </div>
 </footer>
