@@ -14,6 +14,7 @@ use App\Models\Withdraw;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -28,8 +29,8 @@ class UserController extends Controller
         if (!Auth()->user()->can('user.index')) {
             return abort(401);
         }
-       // $users = User::where('role_id', 2)->paginate(20);
-        $users = User::paginate(10);
+       // $users = User::paginate(10);
+        $users = User::where('role_id', 2)->paginate(10);
 
         return view('admin.user.index', compact('users'));
     }
