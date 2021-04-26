@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -175,5 +176,58 @@ class AdminController extends Controller
         }
 
         return response()->json('Success');
+    }
+
+    function search(Request $request){
+        if(!$request->has('form_type')){
+            return view('admin.search.index')->withErrors('There is some problem.');
+        }
+        $type = $request->form_type;
+        $filter = $request->filter;
+        if($type == 'trans_id'){
+            $transaction = Transaction::where('trxid', $filter)->with('user')->orderBy('id', 'DESC')->first();
+            if(!$transaction){
+                return view('admin.search.index')->withErrors('Transaction Id not found.');
+            }
+
+        }elseif($type == 'acc_no'){
+            $transaction = Transaction::wherehas('user', function ($query) use ($filter){
+                $query->where('account_number', $filter);
+            })->with('user')->orderBy('id', 'DESC')->first();
+            if(!$transaction){
+                return view('admin.search.index')->withErrors('Account number not found.');
+            }
+
+        }elseif($type == 'cnic'){
+            $transaction = Transaction::wherehas('user', function ($query) use ($filter){
+                $query->where('cnic', $filter);
+            })->with('user')->orderBy('id', 'DESC')->first();
+            if(!$transaction){
+                return view('admin.search.index')->withErrors('CNIC not found.');
+            }
+
+        }elseif($type == 'phone_no'){
+            $transaction = Transaction::wherehas('user', function ($query) use ($filter){
+                $query->where('phone', $filter);
+            })->with('user')->orderBy('id', 'DESC')->first();
+            if(!$transaction){
+                return view('admin.search.index')->withErrors('Phone number not found.');
+            }
+
+        }elseif($type == 'email'){
+            $transaction = Transaction::wherehas('user', function ($query) use ($filter){
+                $query->where('email', $filter);
+            })->with('user')->orderBy('id', 'DESC')->first();
+            if(!$transaction){
+                return view('admin.search.index')->withErrors('Email not found.');
+            }
+
+        }
+
+
+
+        $data['transaction'] = $transaction;
+        return view('admin.search.index')->with($data);
+
     }
 }

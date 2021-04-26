@@ -91,6 +91,11 @@ Route::post('contact','ContactController@send')->name('contact.send');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
 
+    Route::get('search', function (){
+        return view('admin.search.index');
+    })->name('search.index');
+    Route::post('search', 'AdminController@search')->name('search');
+
     // Admin Dashboard Route
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('activity_log', 'DashboardController@activityLogs')->name('activity_log');

@@ -322,7 +322,11 @@
         </li>
         @endcan
         <li class="menu-header">{{ __('Administrator') }}</li>
-          <li class="nav-item dropdown {{ Request::is('admin/role') ? 'show active' : ''}} {{ Request::is('admin/admin') ? 'show active' : '' }}">
+              <li class="{{ Request::is('admin/search') ? 'active' : '' }}">
+                <a href="{{ route('admin.search.index') }}" class="nav-link"><i class="fas fa-language"></i> <span>{{ __('Search') }}</span></a>
+              </li>
+
+            <li class="nav-item dropdown {{ Request::is('admin/role') ? 'show active' : ''}} {{ Request::is('admin/admin') ? 'show active' : '' }}">
           <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user-shield"></i> <span>{{ __('Admins & Roles') }}</span></a>
           <ul class="dropdown-menu">
             @can('role.list')
