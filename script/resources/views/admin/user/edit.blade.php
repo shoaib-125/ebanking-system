@@ -29,6 +29,12 @@
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="form-group">
+                        <label>{{ __('Middle Name') }}</label>
+                        <input type="text" class="form-control" placeholder="Middle Name" required name="middle_name" value="{{ $user_edit->middle_name }}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
                             <label>{{ __('Last Name') }}</label>
                             <input type="text" class="form-control" placeholder="Last Name" required name="last_name" value="{{ $user_edit->last_name }}">

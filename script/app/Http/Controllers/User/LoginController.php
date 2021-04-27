@@ -31,6 +31,7 @@ class LoginController extends Controller
         // Validate
         $request->validate([
             'first_name'   => 'required|alpha',
+            'middle_name'    => 'required|alpha',
             'last_name'    => 'required|alpha',
             'dob'          => 'required|date_format:d.m.Y|before:today',
             'cnic'         => 'required|min:13|max:15',
@@ -52,6 +53,7 @@ class LoginController extends Controller
         // User store
         $user_store       = new User();
         $user_store->first_name  = $request->first_name;
+        $user_store->middle_name  = $request->middle_name;
         $user_store->last_name  = $request->last_name;
         $user_store->dob  = $request->dob;
         $user_store->cnic  = $request->cnic;

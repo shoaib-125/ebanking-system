@@ -68,6 +68,7 @@ class UserController extends Controller
         // Validate
         $request->validate([
             'first_name'   => 'required|alpha',
+            'middle_name'   => 'required|alpha',
             'last_name'    => 'required|alpha',
             'dob'          => 'required|date_format:d.m.Y|before:today',
             'cnic'         => 'required|max:15',
@@ -89,6 +90,7 @@ class UserController extends Controller
         // User store
         $user_store        = new User();
         $user_store->first_name  = $request->first_name;
+        $user_store->middle_name  = $request->middle_name;
         $user_store->last_name  = $request->last_name;
         $user_store->dob  = $request->dob;
         $user_store->cnic  = $request->cnic;
@@ -128,6 +130,7 @@ class UserController extends Controller
     {
         $request->validate([
             'first_name'   => 'required|alpha',
+            'middle_name'   => 'required|alpha',
             'last_name'    => 'required|alpha',
             'dob'          => 'required|date_format:d.m.Y|before:today',
             'cnic'         => 'required|min:13|max:15',
@@ -145,6 +148,7 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'User not found.');
         }
         $user->first_name  = $request->first_name;
+        $user->middle_name  = $request->middle_name;
         $user->last_name  = $request->last_name;
         $user->dob  = $request->dob;
         $user->cnic  = $request->cnic;
@@ -217,6 +221,7 @@ class UserController extends Controller
         ]);*/
         $request->validate([
             'first_name'   => 'required|alpha',
+            'middle_name'   => 'required|alpha',
             'last_name'    => 'required|alpha',
             'dob'          => 'required|date_format:d.m.Y|before:today',
             'cnic'         => 'required|min:13|max:15',
@@ -239,6 +244,7 @@ class UserController extends Controller
         // User update
         $user_update        = User::findOrFail($id);
         $user_update->first_name  = $request->first_name;
+        $user_update->middle_name  = $request->middle_name;
         $user_update->last_name  = $request->last_name;
         $user_update->dob  = $request->dob;
         $user_update->cnic  = $request->cnic;
