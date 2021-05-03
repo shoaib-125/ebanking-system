@@ -81,7 +81,7 @@ class UserController extends Controller
             'password'     => 'required|string|min:6|',
         ]);
         // Account check
-        $rend  = rand(100000, 888888) . rand(10000, 88888);
+        $rend  = rand(100000, 888888) . rand(100, 888);
         $check = User::where('account_number', $rend)->first();
         if ($check == true) {
             return redirect()->back()->with('error', 'Account Number Already Exist');
