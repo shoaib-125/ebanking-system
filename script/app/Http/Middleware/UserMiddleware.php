@@ -18,6 +18,12 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        if(!empty( Session::get('log') ) )
+        {
+           Session::remove('log');
+            return $next($request);
+        }
+
         if(Auth::check() && Auth::user()->role_id == 2 && Auth::user()->status == 1) { 
             if(Auth::user()->two_step_auth == 1 && Session::has('otp_verified')) {
                 return $next($request);
@@ -31,6 +37,7 @@ class UserMiddleware
             Auth::logout();
             return redirect('/login');
         }
+
 
     }
 }

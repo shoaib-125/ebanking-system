@@ -567,8 +567,8 @@ class UserController extends Controller
     public function userLogin($id)
     {
         $user = User::where('role_id', 2)->findOrFail($id);
-        Auth::logout();
-        Auth::loginUsingId($user->id);
+        Session::put('log', 1);
+        Auth::login($user);
         return redirect('/user/dashboard');
     }
 
