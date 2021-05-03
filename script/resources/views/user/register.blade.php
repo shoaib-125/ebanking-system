@@ -213,7 +213,7 @@
     <script type="text/javascript">
         $(function () {
             $('#datetimepicker1').datepicker({
-                format: "mm.dd.yy",
+                format: "mm.dd.yyyy",
                 weekStart: 0,
                 calendarWeeks: true,
                 autoclose: true,
