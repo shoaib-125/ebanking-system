@@ -121,9 +121,9 @@
                       </div>
                     </div><!-- End card -->
                     <div class="row">
-                        <div class="col-md-6 col-lg-6 col-sm-12">
+                      {{--  <div class="col-md-6 col-lg-6 col-sm-12">
                             <a class="btn btn-primary" href="{{ route('admin.user.transaction.report', ['withdraw', $user_id]) }}"> {{ __('Withdraw Report') }}</a>
-                        </div>
+                        </div>--}}
                         <div class="col-md-6 col-lg-6 col-sm-12">
                             <a class="btn btn-info" href="{{ route('admin.user.transaction.report', ['all transaction', $user_id]) }}">{{ __('Transaction Report') }}</a>
                         </div>
