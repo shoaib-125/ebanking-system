@@ -151,7 +151,7 @@ class LoginController extends Controller
 
 
     public function generateAccNo(){
-        $rend = rand(10000000, 99999999). rand(100, 999);
+        $rend = rand(1000000, 9999999). rand(100, 999);
 
         $check = User::where('account_number', $rend)->first();
 
