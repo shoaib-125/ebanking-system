@@ -25,13 +25,14 @@
                   <tbody>
                     @foreach ($deposits as $deposit)
                     <tr>
-                     
+                     @if(!empty($deposit->user))
                       <td>{{ $deposit->trx }}</td>
                       <td class="align-middle"> {{ $deposit->user->name }}</td>
                       <td>{{ $deposit->getway->name }}</td>
                       <td>{{ $deposit->amount }}</td>
                       <td>{{ $deposit->charge }}</td>
                     </tr>
+                    @endif
                     @endforeach
                   </tbody>
               </table>
