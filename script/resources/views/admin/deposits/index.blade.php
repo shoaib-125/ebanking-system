@@ -54,7 +54,9 @@
                     </tr>
                   </thead>
                   <tbody>
+
                     @foreach ($deposits as $deposit)
+                        @if(!empty($deposit->user))
                     <tr>
                      
                       <td>{{ $deposit->trx }}</td>
@@ -96,6 +98,7 @@
                         @endif
                       </td>
                     </tr>
+                    @endif
                     @endforeach
                   </tbody>
               </table>
