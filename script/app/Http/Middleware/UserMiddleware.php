@@ -20,7 +20,7 @@ class UserMiddleware
     {
         if(!empty( Session::get('log') ) )
         {
-           Session::remove('log');
+          // Session::remove('log');
             return $next($request);
         }
 
