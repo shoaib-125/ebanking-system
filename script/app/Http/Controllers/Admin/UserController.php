@@ -253,6 +253,7 @@ class UserController extends Controller
         $user_update->security_question  = $request->security_question;
         $user_update->answer  = $request->answer;
         $user_update->email = $request->email;
+        $user_update->phone_verified_at = date('Y-m-d H:i:s');
         if ($request->email_verified_at == 'on') {
             $user_update->email_verified_at = date('Y-m-d H:i:s');
         } else {
@@ -262,11 +263,11 @@ class UserController extends Controller
             $user_update->password = Hash::make($request->password);
         }
         $user_update->phone = $request->phone_number;
-        if ($request->phone_verified_at == 'on') {
+      /*  if ($request->phone_verified_at == 'on') {
             $user_update->phone_verified_at = date('Y-m-d H:i:s');
         } else {
             $user_update->phone_verified_at = null;
-        }
+        }*/
         if ($request->two_step_auth == 'on') {
             $user_update->two_step_auth = 1;
         } else {
