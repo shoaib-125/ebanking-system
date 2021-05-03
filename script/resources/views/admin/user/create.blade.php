@@ -1,5 +1,11 @@
 @extends('layouts.backend.app')
 
+@push('css')
+    <link id="bs-css" href="https://netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+@endpush
+
+
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -47,7 +53,18 @@
                             <input type="email" class="form-control" placeholder="Email Address" required name="email">
                         </div>
                     </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>{{ __('Date Of Birth') }}</label>
+                        <input type="text" id="datetimepicker1" placeholder="Enter Date Of Birth" class="form-control @error('dob') is-invalid @enderror" name="dob" value="{{ old('dob') }}" required>
 
+                        @error('dob')
+                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                        @enderror
+                    </div>
+                    </div>
 
                 </div>
                  <div class="form-row">
@@ -145,3 +162,18 @@
 </div>
 @endsection
 
+@push('js')
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datepicker({
+                format: "mm.dd.yyyy",
+                weekStart: 0,
+                calendarWeeks: true,
+                autoclose: true,
+                todayHighlight: true,
+                orientation: "auto"
+            });
+        });
+    </script>
+    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+@endpush
