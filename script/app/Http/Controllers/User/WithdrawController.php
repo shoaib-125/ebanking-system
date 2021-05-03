@@ -59,7 +59,7 @@ class WithdrawController extends Controller
         // Insert transaction data into transaction table
         $transaction = new Transaction();
         $transaction->user_id = $user->id;
-        $transaction->trxid = mt_rand(1,10000000).mt_rand(1,10000000);
+        $transaction->trxid = mt_rand(1,1000000).mt_rand(1,1000000);
         $transaction->amount = $withdrawal_info['amount'];
         $transaction->balance = $new_balance;
         $transaction->fee =  $withdrawal_info['charge'];
