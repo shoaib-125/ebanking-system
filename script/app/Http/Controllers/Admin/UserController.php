@@ -298,8 +298,8 @@ class UserController extends Controller
         $ownbank_debit     = Transaction::where('user_id',$id)->where('type', 'ownbank_debit')->sum('amount');
 
         $deposit   = Deposit::where('user_id',$id)->where('status', 1)->sum('amount') + $ownbank_credit;
-        $withdraw  = Withdraw::where('user_id',$id)->where('status', 1)->sum('amount_usd') + $otherbank + $ownbank_debit;
-
+       // $withdraw  = Withdraw::where('user_id',$id)->where('status', 1)->sum('amount_usd') + $otherbank + $ownbank_debit;
+        $withdraw = Transaction::where('user_id', $id)->where('status', 1)->where('type','withdraw')->sum('amount');
         // $deposit = Transaction::where('user_id',$id)
         // ->where(function ($query){
         //     $query->where('type','edeposit')

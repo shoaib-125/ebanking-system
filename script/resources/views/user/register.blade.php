@@ -40,7 +40,7 @@
                                 </div>
                                 <h6>{{ __('Middle Name') }}</h6>
                                 <div class="form-group">
-                                    <input id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" placeholder="Enter Middle Name" value="{{ old('middle_name') }}" required autocomplete="middle_name" autofocus>
+                                    <input id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" placeholder="Enter Middle Name" value="{{ old('middle_name') }}"  autocomplete="middle_name" autofocus>
 
                                     @error('middle_name')
                                         <span class="invalid-feedback" role="alert">
