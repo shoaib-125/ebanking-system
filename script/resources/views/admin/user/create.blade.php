@@ -57,7 +57,14 @@
                               <input type="number" class="form-control" placeholder="CNIC" required name="cnic">
                           </div>
                       </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="form-group">
+                          <label>{{ __('Mother Name') }}</label>
+                          <input type="text" class="form-control" placeholder="Mother Name" required name="mother_name">
+                      </div>
                   </div>
+                 </div>
                   <div class="form-row">
                       <div class="col-lg-6 col-md-6 col-sm-12">
                           <div class="form-group">
