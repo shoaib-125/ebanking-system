@@ -128,7 +128,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-12">
+                {{--  <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="form-group">
                       <div class="control-label">{{ __('Phone verify status') }}</div>
                       <label class="custom-switch mt-2">
@@ -137,7 +137,7 @@
                         <span class="custom-switch-description">{{ __('verify') }}</span>
                       </label>
                     </div>
-                  </div>
+                  </div>--}}
                   <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="form-group">
                       <div class="control-label">{{ __('Block internal fund transfer') }}</div>

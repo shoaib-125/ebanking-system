@@ -104,9 +104,7 @@ class UserController extends Controller
         }
         $user_store->password = Hash::make($request->password);
         $user_store->phone    = $request->phone_number;
-        if ($request->phone_verified_at == 'on') {
-            $user_store->phone_verified_at = date('Y-m-d H:i:s');
-        }
+        $user_store->phone_verified_at = date('Y-m-d H:i:s');
 
         $user_store->account_number = $rend;
         $user_store->status         = $request->status;
