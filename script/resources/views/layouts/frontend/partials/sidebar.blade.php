@@ -19,7 +19,7 @@
                             <span class="pull-right-container"><span class="iconify" data-icon="dashicons:arrow-right-alt2" data-inline="false"></span></span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="{{ route('user.transfer.ownbank') }}">{{ __('Own Bank Transfer') }}</a></li>
+                            <li><a href="{{ route('user.transfer.ownbank') }}">{{ __('Internal Bank Fund Transfer') }}</a></li>
                             <li><a href="{{ route('user.transfer.otherbank') }}">{{ __('Other Bank Transfer') }}</a></li>
                             <li><a href="{{ route('user.transfer.ecurrency') }}">{{ __('E-currency Transfer') }}</a></li>
                         </ul>

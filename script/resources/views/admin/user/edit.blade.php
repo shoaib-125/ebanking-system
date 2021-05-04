@@ -1,5 +1,10 @@
 @extends('layouts.backend.app')
 
+@push('css')
+    <link id="bs-css" href="https://netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -31,7 +36,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                       <div class="form-group">
                         <label>{{ __('Middle Name') }}</label>
-                        <input type="text" class="form-control" placeholder="Middle Name" required name="middle_name" value="{{ $user_edit->middle_name }}">
+                        <input type="text" class="form-control" placeholder="Middle Name"  name="middle_name" value="{{ $user_edit->middle_name }}">
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12">
@@ -49,7 +54,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
                             <label>{{ __('DOB') }}</label>
-                            <input type="text" class="form-control" placeholder="Date of Birth" required name="dob" value="{{ $user_edit->dob }}">
+                            <input type="text" id="datetimepicker1" class="form-control" placeholder="Date of Birth" required name="dob" value="{{ $user_edit->dob }}">
                         </div>
                     </div>
                 </div>
@@ -165,5 +170,20 @@
     </div>
 </div>
 @endsection
+@push('js')
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datepicker({
+                format: "mm.dd.yyyy",
+                weekStart: 0,
+                calendarWeeks: true,
+                autoclose: true,
+                todayHighlight: true,
+                orientation: "auto"
+            });
+        });
+    </script>
+    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+@endpush
 
 
