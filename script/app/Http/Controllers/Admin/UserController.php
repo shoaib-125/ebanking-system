@@ -130,7 +130,7 @@ class UserController extends Controller
     {
         $request->validate([
             'first_name'   => 'required|alpha',
-            'middle_name'   => 'required|alpha',
+      /*      'middle_name'   => 'required|alpha',*/
             'last_name'    => 'required|alpha',
             'dob'          => 'required|date_format:d.m.Y|before:today',
             'cnic'         => 'required|min:13|max:15',
