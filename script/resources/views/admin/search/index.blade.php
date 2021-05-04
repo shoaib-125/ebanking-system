@@ -45,7 +45,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <div class="form-group">
                                         <label>{{ __('Account number') }}</label>
-                                        <input type="text" class="form-control" placeholder="{{ __('Account number') }}" required name="filter" @if(isset($transaction))value="{{ $transaction->user->account_number }}"@endif>
+                                        <input type="text" class="form-control" placeholder="{{ __('Account number') }}" required name="filter" @if(isset($user))value="{{ $user->account_number }}"@endif>
                                         <input type="hidden" name="form_type" value="acc_no">
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <div class="form-group">
                                         <label>{{ __('Email') }}</label>
-                                        <input type="text" class="form-control" placeholder="{{ __('Email') }}" required name="filter" @if(isset($transaction))value="{{ $transaction->user->email }}"@endif>
+                                        <input type="text" class="form-control" placeholder="{{ __('Email') }}" required name="filter" @if(isset($user))value="{{ $user->email }}"@endif>
                                         <input type="hidden" name="form_type" value="email">
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <div class="form-group">
                                         <label>{{ __('CNIC') }}</label>
-                                        <input type="text" class="form-control" placeholder="{{ __('CNIC') }}" required name="filter" @if(isset($transaction))value="{{ $transaction->user->cnic }}"@endif>
+                                        <input type="text" class="form-control" placeholder="{{ __('CNIC') }}" required name="filter" @if(isset($user))value="{{ $user->cnic }}"@endif>
                                         <input type="hidden" name="form_type" value="cnic">
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <div class="form-group">
                                         <label>{{ __('Mobile number') }}</label>
-                                        <input type="text" class="form-control" placeholder="{{ __('Mobile number') }}" required name="filter" @if(isset($transaction))value="{{ $transaction->user->phone }}"@endif>
+                                        <input type="text" class="form-control" placeholder="{{ __('Mobile number') }}" required name="filter" @if(isset($user))value="{{ $user->phone }}"@endif>
                                         <input type="hidden" name="form_type" value="phone_no">
                                     </div>
                                 </div>
@@ -109,22 +109,22 @@
                                 </div>
                             </div>
                         </form>
-                        @if(isset($transaction))
+                        @if(isset($transaction) || isset($user))
                         <div class="form-row">
                             <div class="col-lg-4 col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <a class="btn btn-primary btn-lg mt-md-4 mt-lg-4 float-right w-100 basicbtn" style="margin-left: 5px; margin-right: 5px;" href="{{ route('admin.user.login', $transaction->user_id) }}">{{ __('Login as User') }}</a>
+                                    <a class="btn btn-primary btn-lg mt-md-4 mt-lg-4 float-right w-100 basicbtn" style="margin-left: 5px; margin-right: 5px;" href="{{ route('admin.user.login', $user->id) }}">{{ __('Login as User') }}</a>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">
-                                <form method="POST" enctype="multipart/form-data" action="{{ route('admin.search.export', $transaction->id) }}">
+                                <form method="POST" enctype="multipart/form-data" action="{{ route('admin.search.export', [$user ? $user->id : 0, $transaction ? $transaction->id : 0]) }}">
                                     @csrf
                                     <input type="hidden" name="form_type" value="csv_export">
                                     <button type="submit" class="btn btn-primary btn-lg mt-md-4 mt-lg-4 float-right w-100 basicbtn">{{ __('Export CSV') }}</button>
                                 </form>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">
-                                <form method="POST" enctype="multipart/form-data" action="{{ route('admin.search.export', $transaction->id) }}">
+                                <form method="POST" enctype="multipart/form-data" action="{{ route('admin.search.export', [$user ? $user->id : 0, $transaction ? $transaction->id : 0]) }}">
                                     @csrf
                                     <input type="hidden" name="form_type" value="pdf_export">
                                     <button type="submit" class="btn btn-primary btn-lg mt-md-4 mt-lg-4 float-right w-100 basicbtn">{{ __('Export PDF') }}</button>
@@ -207,13 +207,13 @@
                     <div class="col-lg-4 col-md-4 col-sm-12">
                         <div class="form-group">
                             <label>{{ __('From Account') }}</label>
-                            <input type="text" class="form-control" placeholder="{{ __('From Account') }}" readonly>
+                            <input type="text" class="form-control" placeholder="{{ __('From Account') }}" readonly value="{{ $acc_from ?? '' }}">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12">
                         <div class="form-group">
                             <label>{{ __('To Account') }}</label>
-                            <input type="text" class="form-control" placeholder="{{ __('To Account') }}" readonly>
+                            <input type="text" class="form-control" placeholder="{{ __('To Account') }}" readonly value="{{ $acc_to ?? '' }}">
                         </div>
                     </div>
                 </div>

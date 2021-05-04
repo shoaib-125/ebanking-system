@@ -115,6 +115,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function transaction(){
+        return $this->hasOne(Transaction::class, 'user_id', 'id')->orderBy('id', 'DESC');
+    }
+
+
     public function deposit() {
         return $this->hasMany(Deposit::class, 'user_id', 'id');
     }

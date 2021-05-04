@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Deposit;
+use App\Models\Getway;
 use App\Models\Transaction;
 use App\Models\User;
 use Faker\Provider\DateTime;
@@ -121,19 +122,14 @@ class AdminController extends Controller
 
         // Validation Data
         $request->validate([
-            'first_name' => 'required|max:50',
-            'last_name' => 'required|max:50',
-            'cnic' => 'required|min:13|max:15',
-            'roles' => 'required',
-            'email' => 'required|max:100|email|unique:users',
-            'phone' => 'required|max:20|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'name' => 'required|max:50',
+            'email' => 'required|max:100|email|unique:users,email,' . $id,
+            'phone' => 'required|max:20|unique:users,phone,' . $id,
+            'password' => 'nullable|min:6|confirmed',
         ]);
 
 
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->cnic = $request->cnic;
+        $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->status = $request->status;
@@ -189,82 +185,103 @@ class AdminController extends Controller
         if(!$request->has('form_type')){
             return view('admin.search.index')->withErrors('There is some problem.');
         }
+        $transaction = null;
+        $user = null;
         $type = $request->form_type;
         $filter = $request->filter;
         if($type == 'trans_id'){
-            $transaction = Transaction::where('trxid', $filter)->with('user')->orderBy('id', 'DESC')->first();
-            if(!$transaction){
+            $user = User::whereHas('transaction', function($q) use($filter){
+                $q->where('trxid', $filter);
+            })->first();
+            if($user){
+                $transaction = Transaction::where('trxid', $filter)->first();
+            }else{
                 return view('admin.search.index')->withErrors('Transaction Id not found.');
             }
 
         }elseif($type == 'acc_no'){
-            $transaction = Transaction::wherehas('user', function ($query) use ($filter){
-                $query->where('account_number', $filter);
-            })->with('user')->orderBy('id', 'DESC')->first();
-            if(!$transaction){
+            $user = User::where('account_number', $filter)->first();
+            if(!$user){
                 return view('admin.search.index')->withErrors('Account number not found.');
             }
 
         }elseif($type == 'cnic'){
-            $transaction = Transaction::wherehas('user', function ($query) use ($filter){
-                $query->where('cnic', $filter);
-            })->with('user')->orderBy('id', 'DESC')->first();
-            if(!$transaction){
+            $user = User::where('cnic', $filter)->first();
+            if(!$user){
                 return view('admin.search.index')->withErrors('CNIC not found.');
             }
 
         }elseif($type == 'phone_no'){
-            $transaction = Transaction::wherehas('user', function ($query) use ($filter){
-                $query->where('phone', $filter);
-            })->with('user')->orderBy('id', 'DESC')->first();
-            if(!$transaction){
+            $user = User::where('phone', $filter)->first();
+            if(!$user){
                 return view('admin.search.index')->withErrors('Phone number not found.');
             }
 
         }elseif($type == 'email'){
-            $transaction = Transaction::wherehas('user', function ($query) use ($filter){
-                $query->where('email', $filter);
-            })->with('user')->orderBy('id', 'DESC')->first();
-            if(!$transaction){
+            $user = User::where('email', $filter)->first();
+            if(!$user){
                 return view('admin.search.index')->withErrors('Email not found.');
             }
 
         }
-
+        if($user && $transaction == null){
+            $transaction = $user->transaction;
+        }
+        $acc_from = null;
+        $acc_to = null;
+        if($transaction) {
+            if ($transaction->type == 'edeposit') {
+                $deposit = Deposit::where('transaction_id', $transaction->id)->first();
+                if ($deposit) {
+                    $gateway = Getway::find($deposit->getway_id)->first();
+                    if ($gateway) {
+                        $acc_from = $gateway->name;
+                    }
+                }
+            } elseif ($transaction->type == 'withdraw') {
+                $acc_from = $user->account_number;
+                $acc_to = 'External Account';
+            }
+        }
+        $data['user'] = $user;
         $data['transaction'] = $transaction;
+        $data['acc_from'] = $acc_from;
+        $data['acc_to'] = $acc_to;
+
         return view('admin.search.index')->with($data);
 
     }
 
-    function exportSearch(Request $request, $trans_id){
-        $transaction = Transaction::with('user')->find($trans_id);
-        if(!$transaction){
-            return view('admin.search.index')->withErrors('Transaction not found');
+    function exportSearch(Request $request, $user_id, $trans_id){
+        $user = User::find($user_id);
+        $transaction = Transaction::find($trans_id);
+        if(!$transaction && !$user){
+            return view('admin.search.index')->withErrors('Record not found');
         }
 
         $columns = array('Transaction ID', 'Account number', 'CNIC', 'Mobile number', 'Email', 'Transaction Type', 'Date', 'Amount', 'Fee', 'From Account', 'To Account', 'Summary', 'Status' );
-        $status = '';
-        if($transaction->status == 0)
-            $status = 'Rejected';
-        elseif($transaction->status == 1)
-            $status = 'Approved';
-        elseif($transaction->status == 2)
-            $status = 'Pending';
-        else
-            $status = '-';
+        $status = '-';
+        if($transaction) {
+            if ($transaction->status == 0)
+                $status = 'Rejected';
+            elseif ($transaction->status == 1)
+                $status = 'Approved';
+            elseif ($transaction->status == 2)
+                $status = 'Pending';
+        }
         $data[0] = array(
-            $transaction->trxid,
-            $transaction->user->account_number,
-            $transaction->user->cnic,
-            $transaction->user->phone,
-            $transaction->user->email,
-            $transaction->type,
-            $transaction->created_at->format('Y-m-d H:i:s'),
-            $transaction->amount,
-            $transaction->fee,
+            $transaction ? $transaction->trxid : '-',
+            $user ? $user->account_number : '-',
+            $user ? $user->cnic : '-',
+            $user ? $user->phone : '-',
+            $user ? $user->email : '-',
+            $transaction ? $transaction->type : '-',
+            $transaction ? $transaction->created_at->format('Y-m-d H:i:s') : '-',
+            $transaction ? $transaction->amount : '-',
+            $transaction ? $transaction->fee : '-',
             '-',
             '-',
-            $transaction->info,
+            $transaction ? $transaction->info : '-',
             $status);
 
         $type = $request->form_type;
@@ -290,7 +307,7 @@ class AdminController extends Controller
             return response()->stream($callback, 200, $headers);
         }elseif($type == 'pdf_export') {
             $pdf = PDF::loadView('admin.search.pdf', compact('data', 'columns'));
-            return $pdf->download('ddd.pdf');
+            return $pdf->download('search_result'.DateTime::dateTime()->format('Y-m-d-H-i-s').'.pdf');
         }
 
         return redirect()->back();
