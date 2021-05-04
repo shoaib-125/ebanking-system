@@ -14,16 +14,38 @@
                     @csrf
                     @method('PUT')
 					<div class="pt-20">
-						<div class="form-group">
-							<label for="name">{{ __('Name') }}</label>
-							<input type="text" value="{{ $user->name }}" required class="form-control" name="name" placeholder="{{ __('Enter admin name') }}" >
+						<div class="form-row">
+							<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="form-group">
+									<label>{{ __('First Name') }}</label>
+									<input type="text" class="form-control" placeholder="First Name" required value="{{ $user->first_name }}" name="first_name">
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="form-group">
+									<label>{{ __('Middle Name') }}</label>
+									<input type="text" class="form-control" placeholder="Middle Name" value="{{ $user->middle_name }}" name="middle_name">
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="form-group">
+									<label>{{ __('Last Name') }}</label>
+									<input type="text" class="form-control" placeholder="Last Name" value="{{ $user->last_name }}" required name="last_name">
+								</div>
+							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="email">{{ __('Email') }}</label>
 							<input type="email" value="{{ $user->email }}" required class="form-control" name="email" placeholder="{{ __('Enter email') }}" >
 						</div>
-						
+
+						<div class="form-group">
+							<label>{{ __('CNIC') }}</label>
+							<input type="number" class="form-control" placeholder="CNIC" value="{{ $user->cnic }}"  required name="cnic">
+						</div>
+
 						<div class="form-group">
 							<label for="email">{{ __('Phone') }}</label>
 							<input type="number" value="{{ $user->phone }}" required class="form-control" name="phone" placeholder="{{ __('Enter phone') }}" >
