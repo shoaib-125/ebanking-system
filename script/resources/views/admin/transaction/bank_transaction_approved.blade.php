@@ -76,6 +76,7 @@
                   </thead>
                   <tbody>
                     @foreach($transaction_approved as $row)
+                    @if(!empty($row->user))
                     <tr>
                       <td>{{ $row->user->name }}</td>
                       <td>{{ $row->user->account_number }}</td>
@@ -90,6 +91,7 @@
                       </td>
                       
                     </tr>
+                    @endif
                     @endforeach
                   </tbody>
                   {{ $transaction_approved->links('vendor.pagination.bootstrap-4') }}

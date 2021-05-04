@@ -73,6 +73,7 @@
                   </thead>
                   <tbody>
                     @foreach ($withdraws as $withdraw)
+                    @if(!empty($withdraw->user))
                     <tr>
                       <td>{{ $withdraw->withdrawmethod->title }}</td>
                       <td><a href="{{ url('/admin/users',$withdraw->user->id) }}">{{ $withdraw->user->name }}</a></td>
@@ -111,6 +112,7 @@
                         </a>
                       </td>
                     </tr>
+                    @endif
                     @endforeach
                   </tbody>
                 </table>

@@ -74,6 +74,7 @@
                   </thead>
                   <tbody>
                     @foreach($transactions as $key => $row)
+                    @if(!empty($row->user))
                     <tr>
                       <td>{{ $key+1 }}</td>
                       <td><a href="{{ route('admin.users.show', $row->user->id) }}">{{ $row->user->name }}</a></td>
@@ -96,6 +97,7 @@
                         </a>
                       </td>
                     </tr>
+                    @endif
                     @endforeach
                   </tbody>
                 </table>

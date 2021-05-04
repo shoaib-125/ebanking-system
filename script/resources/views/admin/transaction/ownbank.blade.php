@@ -76,6 +76,7 @@
                   </thead>
                   <tbody>
                     @foreach($transaction as $row)
+                    @if(!empty($row->user))
                     <tr>
                       <td><a href="{{ url('/admin/users',$row->user->id) }}">{{ $row->user->name }}</a></td>
                       <td><a href="{{ url('/admin/users',$row->user->id) }}">{{ $row->user->account_number }}</a></td>
@@ -89,6 +90,7 @@
                         </a>
                       </td>
                     </tr>
+                    @endif
                     @endforeach
                   </tbody>
                 </table>

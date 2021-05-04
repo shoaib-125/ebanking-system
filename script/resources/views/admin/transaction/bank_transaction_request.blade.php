@@ -79,6 +79,7 @@
                   </thead>
                   <tbody>
                     @foreach($transaction_request as $row)
+                    @if(!empty($row->user))
                     <tr>
                       <td>{{ $row->user->name }}</td>
                       <td>{{ $row->user->account_number }}</td>
@@ -112,6 +113,7 @@
                         </div>
                       </td>
                     </tr>
+                    @endif
                     @endforeach
                   </tbody>
                 </table>
