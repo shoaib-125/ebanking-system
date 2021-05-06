@@ -18,4 +18,9 @@ class Transaction extends Model
     {
         return $this->hasOne(Banktransection::class, 'transaction_id');
     }
+
+    public function withDrawRequest()
+    {
+        return $this->hasOne(WithDrawRequest::class);
+    }
 }

@@ -71,6 +71,13 @@ class WithdrawController extends Controller
         $transaction->type = 'withdraw';
         $transaction->save();
 
+        $withDrawInfo = [
+            'account_title' => $withdrawal_info['account_title'],
+            'account_no' => $withdrawal_info['account_no'],
+            'withdraw_method' => $withdrawal_info['method'],
+        ];
+        $transaction->withDrawRequest()->create($withDrawInfo);
+
         Session::forget('payment_info');
         Session::flash('message', 'Withdrawal request will be approved by admin after verification.');
         return redirect()->route('user.withdraw.history');

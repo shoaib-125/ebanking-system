@@ -41,7 +41,6 @@ class TransferController extends Controller
         }
 
         $request->validate([
-            'account_title' => 'required',
             'account_no'    => 'required',
             'amount'        => 'required',
             'transaction_pin'        => 'required',
@@ -108,7 +107,6 @@ class TransferController extends Controller
         }
 
         $data = [
-            'account_title' => $request->account_title,
             'amount' => abs($request->amount),
             'total_amount' => abs($amount),
             'account_no' => $request->account_no,
@@ -137,7 +135,6 @@ class TransferController extends Controller
                 'type'=> 'ownbank',
                 'name' => $user->name,
                 'account_no' => $request->session()->get('account_no'),
-                'account_title' => $request->session()->get('account_title'),
                 'otp' => $otp,
             ];
 
