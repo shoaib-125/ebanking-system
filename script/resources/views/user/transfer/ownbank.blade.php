@@ -32,6 +32,20 @@
                                             @endif
                                         </div>
                                     </div>
+                                   <div class="row">
+                                       <div class="col-lg-12">
+                                           <div class="form-group">
+                                               <label for="">{{ __('Account Title') }}</label>
+                                               <input type="text" name="account_title" value="{{ old('account_title') }}" class="{{ Session::has('account_err') ? 'is-invalid' : '' }} form-control" placeholder="{{ __('Account Title') }}">
+                                           </div>
+
+                                           @if(Session::has('account_err'))
+                                               <span class="invalid-feedback" role="alert">
+                                                <strong>{{ Session::get('account_err') }}</strong>
+                                            </span>
+                                           @endif
+                                       </div>
+                                   </div>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group">

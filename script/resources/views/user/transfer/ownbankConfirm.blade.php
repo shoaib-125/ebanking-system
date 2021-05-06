@@ -21,6 +21,10 @@
                                             <td>{{ $data->account_no }}</td>
                                         </tr>
                                         <tr>
+                                            <td>{{ __('Account Title') }}</td>
+                                            <td>{{ $data->account_title }}</td>
+                                        </tr>
+                                        <tr>
                                             <td>{{ __('Amount') }}</td>
                                             <td>{{ $data->amount }}</td>
                                         </tr>
