@@ -24,11 +24,15 @@
                                            <div class="deposit-name">
                                                <h3>{{ ucwords($gateway->name) }}</h3>
                                            </div>
+
                                            <div class="requirments-menu">
                                                 <nav>
                                                     <ul>
                                                         <li>{{ __('Limit') }}: {{ $gateway->deposit_min }}-{{ $gateway->deposit_max }}</li>
-                                                        <li>{{ __('Charge') }}: {{ $gateway->charge_type }}</li>
+                                                {{--        <li>{{ __('Charge') }}: {{ $gateway->charge_type }}</li>--}}
+                                                        @foreach( json_decode($gateway->data) as $key=>$info)
+                                                        <li>{{ __(ucwords(str_replace("_"," ",$key))) }}: {{ $info }}</li>
+                                                        @endforeach
                                                     </ul>
                                                 </nav>
                                            </div>
@@ -57,6 +61,10 @@
                                                         @endforeach
                                                     </select> 
                                                 @endif
+                                                {{--<div class="form-group">
+                                                    <label>{{ __('Transferred To Account Number') }}</label>
+                                                    <input type="text" class="form-control" name="acc_number" tabindex="1" value="{{json_decode($gateway)}}" required autofocus placeholder="{{ __('To Account number') }}">
+                                                </div>--}}
                                                 <div class="form-group">
                                                     <label>{{ __('Enter Account Number') }}</label>
                                                     <input type="text" class="form-control" name="acc_number" tabindex="1" required autofocus placeholder="{{ __('Account number') }}">

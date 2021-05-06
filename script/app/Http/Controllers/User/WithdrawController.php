@@ -39,6 +39,9 @@ class WithdrawController extends Controller
         session([
             'withdrawal_info' => [
                 'amount' => $request->amount,
+                'account_no' => $request->account_no,
+                'account_title' => $request->account_title,
+                'method' => $request->withdraw_method,
                 'charge' => 0,
                 'status' => 2,
             ],'redirect_url' => route('user.withdraw.request.success')

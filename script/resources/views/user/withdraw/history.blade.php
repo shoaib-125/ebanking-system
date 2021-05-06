@@ -99,6 +99,18 @@
                                     <input type="number" class="form-control" name="amount" tabindex="1" required autofocus placeholder="{{ __('Amount') }}">
                                 </div>
                                 <div class="form-group">
+                                    <label>{{ __('Enter Your Withdrawal Method') }}</label>
+                                    <input type="text" class="form-control" name="withdraw_method" tabindex="1" required autofocus placeholder="{{ __('Method') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ __('Enter Your Withdrawal Account Title') }}</label>
+                                    <input type="text" class="form-control" name="account_title" tabindex="1" required autofocus placeholder="{{ __('Account Title') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ __('Enter Your Withdrawal Account Number') }}</label>
+                                    <input type="number" class="form-control" name="account_no" tabindex="1" required autofocus placeholder="{{ __('Account Number') }}">
+                                </div>
+                                    <div class="form-group">
                                     <div class="button-btn">
                                         <button type="submit" class="basicbtn w-100" tabindex="4">
                                             {{ __('Request') }}

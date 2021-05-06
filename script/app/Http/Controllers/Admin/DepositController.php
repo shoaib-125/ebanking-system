@@ -125,10 +125,10 @@ class DepositController extends Controller
         $request->validate([
             'name'            => 'required|unique:getways,name,'.$id,
             'logo'            => 'image|max:1024',
-            'rate'            => 'required',
+        //    'rate'            => 'required',
             'deposit_min'     => 'required|min:1|lt:deposit_max',
             'deposit_max'     => 'required|gt:deposit_min',
-            'charge_type'     => 'required'
+            //'charge_type'     => 'required'
         ]);
         $getway = Getway::findOrFail($id);
         // logo check
@@ -142,9 +142,9 @@ class DepositController extends Controller
         }
         // Automatic Payment Gateway update
         $getway->name    = $request->name;
-        $getway->rate = $request->rate;
+      //  $getway->rate = $request->rate;
         $getway->deposit_min = $request->deposit_min;
-        $getway->charge_type = $request->charge_type;
+        //$getway->charge_type = $request->charge_type;
         $getway->status = $request->status;
         $getway->fix_charge =  ($request->charge_type == 'fixed' || $request->charge_type == 'both') ? ($request->fix_charge ?? 0) : 0;
         $getway->percent_charge = ($request->charge_type == 'percentage' || $request->charge_type == 'both') ? ($request->percent_charge ?? 0) : 0;

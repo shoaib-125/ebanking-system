@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                  <div class="col-lg-6 col-md-6 col-sm-12">
+                {{--  <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>{{ __('Rate') }} 
                           @switch($gateway->id)
@@ -63,22 +63,22 @@
                         </label>
                         <input type="number" step="any" class="form-control" placeholder="Rate (1USD= ? USD)" required name="rate" value="{{ $gateway->rate }}">
                     </div>
-                  </div>
+                  </div>--}}
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>{{ __('Minimum Amount') }}</label>
                         <input type="number" step="any" class="form-control" placeholder="Minimum Amount" required name="deposit_min" value="{{ $gateway->deposit_min }}">
                     </div>
                   </div>
-                </div>
-                <div class="form-row">
-                    
                     <div class="col-lg-6 col-md-6 col-sm-12">
-                      <div class="form-group">
-                        <label>{{ __('Maximum Amount') }}</label>
-                        <input type="number" step="any" class="form-control" placeholder="Maximum Amount" required name="deposit_max" value="{{ $gateway->deposit_max }}">
-                      </div>
+                        <div class="form-group">
+                            <label>{{ __('Maximum Amount') }}</label>
+                            <input type="number" step="any" class="form-control" placeholder="Maximum Amount" required name="deposit_max" value="{{ $gateway->deposit_max }}">
+                        </div>
                     </div>
+                </div>
+
+               {{-- <div class="form-row">
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
                             <label>{{ __('Deposit Charge') }}</label>
@@ -107,8 +107,10 @@
                           </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
+
                 <div class="form-row">
+
                     @foreach ($info_data as $key => $data)
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
@@ -117,6 +119,7 @@
                         </div>
                     </div>
                     @endforeach
+
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
