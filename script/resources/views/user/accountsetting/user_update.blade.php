@@ -49,8 +49,20 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>{{ __('Name') }}</label>
-                                                <input type="text" placeholder="{{ __('Enter Your Name') }}" class="form-control" value="{{ Auth::user()->name }}" name="name">
+                                                <label>{{ __('First Name') }}</label>
+                                                <input type="text" placeholder="{{ __('Enter First Name') }}" class="form-control" value="{{ Auth::user()->first_name }}" name="first_name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>{{ __('Middle Name') }}</label>
+                                                <input type="text" placeholder="{{ __('Enter Middle Name') }}" class="form-control" value="{{ Auth::user()->middle_name }}" name="middle_name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>{{ __('Last Name') }}</label>
+                                                <input type="text" placeholder="{{ __('Enter Last Name') }}" class="form-control" value="{{ Auth::user()->last_name }}" name="last_name">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">

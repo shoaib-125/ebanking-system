@@ -107,21 +107,28 @@ class AccountSettingController extends Controller
     {
 
         $request->validate([
-            'name'         => 'required',
+            'first_name'         => 'required|alpha',
+            'last_name'         => 'required|alpha',
             'email'        => 'required|unique:users,email,' . Auth::user()->id,
             'phone_number' => 'required|numeric|unique:users,phone,' . Auth::user()->id,
         ]);
 
         // update
         $changePass                = User::find(Auth::user()->id);
-        $changePass->name          = $request->name;
+        $changePass->first_name          = $request->first_name;
+        if (!empty($request->middle_name))
+        {
+            $changePass->middle_name          = $request->middle_name;
+        }
+        $changePass->last_name          = $request->last_name;
         $changePass->email         = $request->email;
         $changePass->phone         = '+'.$request->phone_number;
         $changePass->two_step_auth = $request->step_validation;
         $changePass->save();
 
         // Redirect
-        return response()->json('Successfully Updated');
+        return  response()->json('Successfully Updated');
+
 
     }
 
