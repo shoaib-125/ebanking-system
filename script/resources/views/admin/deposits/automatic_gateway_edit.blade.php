@@ -110,7 +110,7 @@
                 </div>--}}
 
                 <div class="form-row">
-
+                    @if(!empty($info_data))
                     @foreach ($info_data as $key => $data)
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     @endforeach
-
+                    @endif
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
