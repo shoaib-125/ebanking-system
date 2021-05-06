@@ -110,6 +110,7 @@ class TransferController extends Controller
             'amount' => abs($request->amount),
             'total_amount' => abs($amount),
             'account_no' => $request->account_no,
+            'account_title' => $request->account_title,
             'charge_type' => $transfer_credentials->charge_type,
             'total_charge' => $charge
         ];
@@ -185,8 +186,9 @@ class TransferController extends Controller
         $transaction->balance = $user->balance;
         $transaction->fee = $charge;
         $transaction->status = 1;
-        $transaction->info = 'Balance Transfer with stripe from Acc: '.$user->account_number . ' To Acc: '. $reciever->account_number;
+        $transaction->info = 'Balance Transfer from Acc: '.$user->account_number . ' To Acc: '. $reciever->account_number;
         $transaction->type = 'ownbank_transfer_debit';
+        $transaction->own_bank_transfer_info = $user->account_number.'$:$'.$reciever->account_number;
         $transaction->save();
 
         $transaction_reciever = new Transaction();
@@ -198,6 +200,7 @@ class TransferController extends Controller
         $transaction_reciever->status = 1;
         $transaction_reciever->info = 'Recieved ' . $amount . ' from Acc : '.$user->account_number;
         $transaction_reciever->type = 'ownbank_transfer_credit';
+        $transaction_reciever->own_bank_transfer_info = $user->account_number.'$:$'.$reciever->account_number;
         $transaction_reciever->save();
 
         $senderData = [

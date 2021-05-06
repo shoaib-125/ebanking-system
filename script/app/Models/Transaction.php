@@ -23,4 +23,9 @@ class Transaction extends Model
     {
         return $this->hasOne(WithDrawRequest::class);
     }
+
+    public function deposit()
+    {
+        return $this->hasOne(Deposit::class);
+    }
 }

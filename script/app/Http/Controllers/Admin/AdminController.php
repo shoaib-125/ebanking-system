@@ -231,16 +231,15 @@ class AdminController extends Controller
         $acc_to = null;
         if($transaction) {
             if ($transaction->type == 'edeposit') {
-                $deposit = Deposit::where('transaction_id', $transaction->id)->first();
-                if ($deposit) {
-                    $gateway = Getway::find($deposit->getway_id)->first();
-                    if ($gateway) {
-                        $acc_from = $gateway->name;
-                    }
-                }
+                $acc_from = $transaction->deposit->account_number;
+                $acc_to = $user->account_number;
             } elseif ($transaction->type == 'withdraw') {
                 $acc_from = $user->account_number;
-                $acc_to = 'External Account';
+                $acc_to = $transaction->withDrawRequest->account_no;
+            } elseif (str_contains($transaction->type, 'ownbank_transfer')) {
+                $param = explode('$:$', $transaction->own_bank_transfer_info);
+                $acc_from = $param[0];
+                $acc_to = $param[1];
             }
         }
         $data['user'] = $user;
