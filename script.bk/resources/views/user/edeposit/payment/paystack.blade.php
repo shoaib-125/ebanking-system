@@ -5,7 +5,7 @@
 <!-- dahboard area start -->
 <section>
     <div class="dashboard-area pt-150 pb-100">
-        <div class="container">
+        <div class="container-fuild">
             <div class="row">
                 @include('layouts.frontend.partials.sidebar')
                 <div class="col-lg-9">
@@ -33,11 +33,11 @@
                                             <tr>
                                                 <td>{{ __('Amount (GHS)') }}</td>
                                                 <td>{{ $Info['amount'] }}</td>
-                                            </tr>  
+                                            </tr>
                                             <tr>
                                                 <td>{{ __('Payment Mode') }}</td>
                                                 <td>{{ __('Paystack') }}</td>
-                                            </tr>                                      
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
 @endsection
 
 @push('js')
-<script src="https://js.paystack.co/v1/inline.js"></script> 
+<script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
     "use strict";
 
@@ -68,7 +68,7 @@
         payWithPaystack();
     });
    payWithPaystack();
- 
+
     function payWithPaystack() {
         var amont= {{ $amount * 100 }} ;
 

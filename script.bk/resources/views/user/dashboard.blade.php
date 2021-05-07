@@ -4,7 +4,7 @@
 <!-- dahboard area start -->
 <section>
     <div class="dashboard-area pt-150 pb-100">
-        <div class="container">
+        <div class="container-fuild">
             <div class="row">
                 @include('layouts.frontend.partials.sidebar')
                 <div class="col-lg-9">
@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="section-body">
                             <div class="row">
                                 <div class="col-lg-4">
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <!-- Latest Transaction -->
-                            <br>          
+                            <br>
                             <div class="card">
                                 <div class="card-header">
                                     <h5>{{ __('Latest Transactions') }}</h5>
@@ -134,7 +134,7 @@
                                         </tr>
                                         </thead>
                                         <tbody class="transactions">
-                                        
+
                                         </tbody>
                                     </table>
                                 </div>

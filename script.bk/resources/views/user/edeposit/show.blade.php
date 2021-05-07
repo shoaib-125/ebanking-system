@@ -4,7 +4,7 @@
 <!-- dahboard area start -->
 <section>
     <div class="dashboard-area pt-150 pb-100">
-        <div class="container">
+        <div class="container-fuild">
             <div class="row">
                 @include('layouts.frontend.partials.sidebar')
                 <div class="col-lg-9">
@@ -13,7 +13,7 @@
                             <h4>{{ __('Deposit Details View') }}</h4>
                         </div>
                         <div class="card">
-                            <div class="card-body"> 
+                            <div class="card-body">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -40,7 +40,7 @@
                                             </td>
                                         </tr>
                                         @if ($edeposit->meta)
-                                            @php  
+                                            @php
                                               $deposit_info = json_decode($edeposit->meta->value)
                                             @endphp
 
@@ -59,12 +59,12 @@
                                                     <img width="100" src="{{ asset($deposit_info->image) }}" alt="">
                                                 </td>
                                             </tr>
-                                           
+
                                             <tr>
                                                 <td>{{ __('Comments') }}**</td>
                                                 <td>{{ $deposit_info->comment }}</td>
                                             </tr>
-                                        @endif  
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

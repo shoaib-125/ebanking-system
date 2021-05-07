@@ -5,7 +5,7 @@
 <!-- dahboard area start -->
 <section>
     <div class="dashboard-area pt-150 pb-100">
-        <div class="container">
+        <div class="container-fuild">
             <div class="row">
                 @include('layouts.frontend.partials.sidebar')
                 <div class="col-lg-9">
@@ -34,11 +34,11 @@
                                             <tr>
                                                 <td>{{ __('Amount (USD)') }}</td>
                                                 <td>{{ $Info['amount'] }}</td>
-                                            </tr>  
+                                            </tr>
                                             <tr>
                                                 <td>{{ __('Payment Mode') }}</td>
                                                 <td>{{ __('RazorPay') }}</td>
-                                            </tr>                                      
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -55,8 +55,8 @@
 </section>
 <!-- dahboard area end -->
 
-<form action="{{ url('/user/razorpay/status')}}" method="POST" hidden>	
-    <input type="hidden" value="{{csrf_token()}}" name="_token" /> 
+<form action="{{ url('/user/razorpay/status')}}" method="POST" hidden>
+    <input type="hidden" value="{{csrf_token()}}" name="_token" />
     <input type="text" class="form-control" id="rzp_paymentid"  name="rzp_paymentid">
     <input type="text" class="form-control" id="rzp_orderid" name="rzp_orderid">
     <input type="text" class="form-control" id="rzp_signature" name="rzp_signature">

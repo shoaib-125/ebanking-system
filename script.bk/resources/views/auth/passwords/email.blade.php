@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="dashboard-area pt-150 pb-100">
-    <div class="container">
+    <div class="container-fuild">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="main-container">

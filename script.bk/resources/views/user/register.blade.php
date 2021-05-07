@@ -4,7 +4,7 @@
 <!-- dahboard area start -->
 <section>
     <div class="dashboard-area pt-150 pb-100">
-        <div class="container">
+        <div class="container-fuild">
             <div class="row">
                 <div class="col-lg-5 offset-lg-3">
                     <div class="main-container">

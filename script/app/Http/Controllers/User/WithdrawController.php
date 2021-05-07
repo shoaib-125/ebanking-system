@@ -19,7 +19,8 @@ class WithdrawController extends Controller
     }
 
 
-    public function check(Request $request){
+    public function check(Request $request)
+    {
         if(!$request->has('amount') || $request->amount == null){
             $err = 'Withdrawal amount is required';
             $error['errors']['err']=$err;

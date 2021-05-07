@@ -4,7 +4,7 @@
 <!-- dahboard area start -->
 <section>
     <div class="dashboard-area pt-150 pb-100">
-        <div class="container">
+        <div class="container-fuild">
             <div class="row">
                 @include('layouts.frontend.partials.sidebar')
                 <div class="col-lg-9">
@@ -55,7 +55,7 @@
                                                         @foreach ($gateway->term as $currency)
                                                             <option value="{{ $currency->id }}">{{ $currency->title }}</option>
                                                         @endforeach
-                                                    </select> 
+                                                    </select>
                                                 @endif
                                                 <div class="form-group">
                                                     <label for="email">{{ __('Enter Amount (USD)') }}</label>

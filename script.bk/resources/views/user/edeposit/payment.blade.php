@@ -5,7 +5,7 @@
 <!-- dahboard area start -->
 <section>
     <div class="dashboard-area pt-150 pb-100">
-        <div class="container">
+        <div class="container-fuild">
             <div class="row">
                 @include('layouts.frontend.partials.sidebar')
                 <div class="col-lg-9">
@@ -35,7 +35,7 @@
                                                 @case(4) ({{ __('INR') }})   @break
                                                 @case(5) ({{ __('RM') }})    @break
                                                 @case(7) ({{ __('NGN') }})  @break
-                                                @default 
+                                                @default
                                                 ({{ __('USD') }})
                                             @endswitch
                                             </td>
@@ -53,7 +53,7 @@
                                         @endif
                                     </table>
                                     @isset($gateway->data)
-                                        
+
                                     @if(!empty($gateway->data) && $gateway->type == 0)
                                     <div class="row">
                                         <div class="col-sm-12 bg-white">
@@ -69,10 +69,10 @@
                                         <div class="form-row">
                                             <input type="hidden" name="type" value="{{ $gateway->type }}">
                                             <input type="hidden" name="id" value="{{ $gateway->id }}">
-                                           
+
                                             <input type="hidden" name="currency" value="{{ $data->currency->id ?? 0 }}">
-                                            @if($gateway->type == 1) 
-                                            
+                                            @if($gateway->type == 1)
+
                                             @if($gateway->id == 2)
                                             @php
                                             $stripe=true;
@@ -89,7 +89,7 @@
                                                 @else
                                             @php
                                             $stripe=false;
-                                            @endphp    
+                                            @endphp
 
 
                                             @endif
@@ -112,12 +112,12 @@
                                                 </span>
                                                 @enderror
                                             @endif
-                                            
+
                                         </div>
                                         <div class="button-btn">
                                             <button class="mt-4 w-100" id="submit_btn">{{ __('Submit Payment') }}</button>
                                         </div>
-                                        
+
                                     </form>
                                 </div>
                               </div>

@@ -4,7 +4,7 @@
 <!-- dahboard area start -->
 <section>
     <div class="dashboard-area pt-150 pb-100">
-        <div class="container">
+        <div class="container-fuild">
             <div class="row">
                 @include('layouts.frontend.partials.sidebar')
                 <div class="col-lg-9">
@@ -22,7 +22,7 @@
                            <div class="edeposit-area">
                                <div class="row">
                                    @foreach ($fdr_plans as $row)
-                                  
+
                                    <div class="col-lg-4">
                                        <div class="single-deposit text-center mb-4">
                                             <div class="card">
@@ -44,7 +44,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                           
+
                                        </div>
                                    </div>
                                 <!-- Modal -->
