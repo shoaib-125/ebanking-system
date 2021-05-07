@@ -199,6 +199,9 @@ a:hover{
     color: #81b4fb;
 }
 
+.pt-150{
+    padding-top: 95px;
+}
 
 /* 4. hero */
 .hero-area
@@ -790,7 +793,7 @@ span.calculation-payment-select {
 .sidebar-area {
     background: #1b109be6;;
     padding: 35px 0;
-    border-radius: 5px;
+   /* border-radius: 5px;*/
 }
 
 .user-name h3 {
@@ -834,16 +837,17 @@ span.calculation-payment-select {
 }
 
 .slidebar-nav-area ul li.nav-item:hover {
-    background: #37517eeb;
+    background: #f0f8ff;
+    border-radius: 40px;
     border-left: 5px solid #0f3371;
 }
 
 .slidebar-nav-area ul li.nav-item:hover a {
-    color: #fff;
+    color: #1b109be6;
 }
 
 .slidebar-nav-area ul li.nav-item.active a {
-    color: #fff;
+    color: #1b109be6;
 }
 
 .slidebar-nav-area ul li.nav-item a span.pull-right-container {

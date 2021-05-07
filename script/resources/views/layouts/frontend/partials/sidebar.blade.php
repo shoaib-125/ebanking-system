@@ -1,13 +1,13 @@
 <div class="col-lg-3">
     <div class="sidebar-area">
-        <div class="sidebar-top-content text-center">
+       {{-- <div class="sidebar-top-content text-center">
             <div class="user-img">
                 <img src="{{ url('https://ui-avatars.com/api/?background=random&name='.Auth::user()->name) }}" alt="">
             </div>
             <div class="user-name">
                 <h3>{{ Auth::user()->name }}</h3>
             </div>
-        </div>
+        </div>--}}
         <div class="slidebar-nav-area">
             <nav>
                 <ul>
