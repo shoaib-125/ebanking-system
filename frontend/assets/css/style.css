@@ -828,8 +828,9 @@ span.calculation-payment-select {
 
 
 .slidebar-nav-area ul li.nav-item.active {
-    background: #37517eeb;
-    border-left: 5px solid #0f3371;
+    background: #f0f8ff;
+    border-left: 5px solid #2f26a4;
+    border-radius: 40px;
 }
 
 .slidebar-nav-area ul li.nav-item:hover {
