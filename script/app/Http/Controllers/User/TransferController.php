@@ -90,7 +90,7 @@ class TransferController extends Controller
 
         $charge = 0;
         //Charge type check and calculate
-        if ($transfer_credentials->charge_type == 'fixed') {
+       /* if ($transfer_credentials->charge_type == 'fixed') {
             // calculate fixed
             $charge = (double) $transfer_credentials->fix_charge;
             $amount = $amount - (double) $transfer_credentials->fixed_charge;
@@ -104,7 +104,7 @@ class TransferController extends Controller
             $charge += ($amount / 100) * (double) $transfer_credentials->percent_charge;
             // calculate percentage
             $amount = $amount - $charge;
-        }
+        }*/
 
         $data = [
             'amount' => abs($request->amount),
