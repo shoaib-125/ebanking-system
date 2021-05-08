@@ -66,6 +66,7 @@ class AdminController extends Controller
         // Create New User
         $user = new User();
         $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
         $user->cnic = $request->cnic;
         $user->email = $request->email;
@@ -122,14 +123,19 @@ class AdminController extends Controller
 
         // Validation Data
         $request->validate([
-            'name' => 'required|max:50',
+            'first_name' => 'required|max:50',
+            'last_name' => 'required|max:50',
+            'cnic' => 'required|min:13|max:15',
             'email' => 'required|max:100|email|unique:users,email,' . $id,
             'phone' => 'required|max:20|unique:users,phone,' . $id,
             'password' => 'nullable|min:6|confirmed',
         ]);
 
 
-        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->last_name = $request->last_name;
+        $user->cnic = $request->cnic;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->status = $request->status;
