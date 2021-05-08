@@ -35,6 +35,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'role_id'
     ];
 
+    protected $dateFormat = 'd.m.Y';
+
     /**
      * The attributes that should be hidden for arrays.
      *
