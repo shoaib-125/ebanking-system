@@ -68,28 +68,28 @@ class DashboardController extends Controller
         
 
         // Other Bank Transaction Statistics
-        $other_bank_total_number = Banktransection::count();
-        $other_bank_approved = Banktransection::where('status', 1)->count();
-        $other_bank_rejected = Banktransection::where('status', 0)->count();
-        $other_bank_pending = Banktransection::where('status', 2)->count();
+        $other_bank_total_number = Transaction::where('type', 'ownbank_transfer_debit')->count();
+        $other_bank_approved = Transaction::where('type', 'ownbank_transfer_debit')->where('status', 1)->count();
+        $other_bank_rejected = Transaction::where('type', 'ownbank_transfer_debit')->where('status', 0)->count();
+        $other_bank_pending = Transaction::where('type', 'ownbank_transfer_debit')->where('status', 2)->count();
         $other_bank_amount = Transaction::where([
-            ['type','otherbank_transfer'],
+            ['type','ownbank_transfer_debit'],
             ['status',1],
         ])->sum('amount');
 
         $other_bank_charge = Transaction::where([
-            ['type','otherbank_transfer'],
+            ['type','ownbank_transfer_debit'],
             ['status',1],
         ])->sum('fee');
 
         //Withdraw Statistics
         $debit = Transaction::where('status', 1)->where('type','otherbank_transfer')->orWhere('type', 'ownbank_transfer_debit')->sum('amount');
 
-        $withdraw_total = Withdraw::where('status',1)->sum('amount_usd') + $debit;
-        $withdraw_approved = Withdraw::where('status',1)->count();
-        $withdraw_pending = Withdraw::where('status',2)->count();
-        $withdraw_reject = Withdraw::where('status',0)->count();
-        $withdraw_charge = Withdraw::where('status',1)->sum('fee');
+        $withdraw_total = Transaction::where('type', 'withdraw')->where('status',1)->sum('amount');
+        $withdraw_approved = Transaction::where('type', 'withdraw')->where('status',1)->count();
+        $withdraw_pending = Transaction::where('type', 'withdraw')->where('status',2)->count();
+        $withdraw_reject = Transaction::where('type', 'withdraw')->where('status',0)->count();
+        $withdraw_charge =Transaction::where('type', 'withdraw')->where('status',1)->sum('fee');
    
 
         //Billing Statistics

@@ -65,8 +65,9 @@
                 <table class="table table-striped" id="table-2">
                   <thead>
                     <tr>
-                      <th>{{ __('User') }}</th>
-                      <th>{{ __('Account') }}</th>
+                        <th>{{ __('User - Account') }}</th>
+                        <th>{{ __('Withdraw to Account') }}</th>
+                        <th>{{ __('Withdraw Method') }}</th>
                       <th>{{ __('Trx') }}</th>
                       <th>{{ __('Detail') }}</th>
                       <th>{{ __('Amount') }}</th>
@@ -77,8 +78,9 @@
                   <tbody>
                     @foreach($transaction_rejected as $row)
                     <tr>
-                      <td>{{ $row->user->name }}</td>
-                      <td>{{ $row->user->account_number }}</td>
+                        <td>{{ $row->user->name }} - {{ $row->user->account_number }}</td>
+                        <td>{{ $row->withDrawRequest->account_title }} - {{ $row->withDrawRequest->account_no }}</td>
+                        <td>{{ $row->withDrawRequest->withdraw_method }}</td>
                       <td>{{ $row->trxid }}</td>
                       <td>{{ $row->info }}</td>
                       <td>{{ $row->amount }}</td>

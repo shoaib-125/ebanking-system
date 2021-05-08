@@ -452,7 +452,7 @@
         </div>
       </div>
       <div class="section">
-        <h2 class="section-title">{{ __('Other Bank Transaction Statistics') }}</h2>
+        <h2 class="section-title">{{ __('Own Bank Transfer Statistics') }}</h2>
         <div class="card">
           <div class="card-body">
               <div class="row">
@@ -463,7 +463,7 @@
                       </div>
                       <div class="card-wrap position-relative">
                         <div class="card-header">
-                          <h4>{{ __('Total Number of Deposit') }}</h4>
+                          <h4>{{ __('Total Number of Transfer') }}</h4>
                         </div>
                         <div class="card-body" id="other_bank_total">
                           <span class="loader">

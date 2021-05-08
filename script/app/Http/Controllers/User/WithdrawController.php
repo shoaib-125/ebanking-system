@@ -68,7 +68,7 @@ class WithdrawController extends Controller
         $transaction->balance = $new_balance;
         $transaction->fee =  $withdrawal_info['charge'];
         $transaction->status = $withdrawal_info['status'];
-        $transaction->info = 'Withdraw request';
+        $transaction->info = 'Withdraw';
         $transaction->type = 'withdraw';
         $transaction->save();
 
