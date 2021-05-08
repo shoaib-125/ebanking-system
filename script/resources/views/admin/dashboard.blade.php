@@ -142,7 +142,7 @@
                         </div>
                       </div>
                     </div>  
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    {{--<div class="col-lg-3 col-md-6 col-sm-6 col-12">
                       <div class="card card-statistic-1 mb-0">
                         <div class="card-icon bg-success">
                           <i class="far fa-circle"></i>
@@ -158,7 +158,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>           
+                    </div>  --}}
                 </div>
             </div>
         </div>
